@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, ShoppingCart, User, ChevronDown, LogOut } from "lucide-react";
+import { Menu, X, ShoppingCart, User, ChevronDown, LogOut, Radio } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth-context";
 import { useCart } from "@/lib/cart-store";
@@ -32,6 +32,7 @@ const NAV_ITEMS = [
       { label: "La Passione Magazine", href: "/la-passione" },
     ],
   },
+  { label: "Pulse", href: "/pulse", live: true },
   { label: "Shop", href: "/shop" },
   { label: "News", href: "/news" },
   { label: "Contact", href: "/contact" },
@@ -110,12 +111,15 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href!}
                 className={cn(
-                  "px-3.5 py-2 text-sm font-medium rounded-full transition-colors",
+                  "flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium rounded-full transition-colors",
                   pathname === item.href
                     ? "text-white bg-white/10"
                     : "text-white/75 hover:text-white hover:bg-white/[0.08]"
                 )}
               >
+                {(item as { live?: boolean }).live && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#cc0000] animate-pulse" />
+                )}
                 {item.label}
               </Link>
             )
