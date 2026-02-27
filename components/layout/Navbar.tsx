@@ -22,6 +22,7 @@ const NAV_ITEMS = [
     children: [
       { label: "Ride Outs & Route Planner", href: "/rides" },
       { label: "Route Intelligence", href: "/route-intelligence" },
+      { label: "RideSwap ↔ Swap Your Ducati", href: "/rideswap" },
     ],
   },
   {
