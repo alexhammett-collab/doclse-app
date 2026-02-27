@@ -40,7 +40,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#080808] text-white border-t border-white/[0.05]">
       {/* Main grid */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 pt-20 pb-12">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-20 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-8">
 
           {/* Brand col — spans 2 */}
@@ -108,7 +108,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-white/[0.05]">
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-white/20 text-xs">
             © {new Date().getFullYear()} Ducati Official Club London &amp; South East · All rights reserved
           </p>

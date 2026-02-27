@@ -27,9 +27,9 @@ export default function HomePage() {
           style={{ background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%)" }} />
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col justify-end h-full px-6 sm:px-12 lg:px-20 pb-20 pt-36"
+        <div className="relative z-10 flex flex-col justify-end h-full pb-20 pt-36"
           style={{ minHeight: "100svh" }}>
-          <div className="max-w-4xl">
+          <div className="max-w-7xl mx-auto w-full px-6 sm:px-8 lg:px-12">
             <div className="pill pill-red mb-8 animate-fade-up">
               <span className="w-1.5 h-1.5 rounded-full bg-[#cc0000] inline-block" />
               Founded April 2024 · London &amp; South East
@@ -62,7 +62,7 @@ export default function HomePage() {
 
       {/* ── STATS TICKER ─────────────────────────────────────────────── */}
       <section className="bg-[#cc0000] text-white">
-        <div className="max-w-7xl mx-auto px-6 sm:px-12">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-white/20">
             {[
               { value: "150+", label: "Members" },
@@ -80,8 +80,8 @@ export default function HomePage() {
       </section>
 
       {/* ── EDITORIAL MANIFESTO ──────────────────────────────────────── */}
-      <section className="bg-[#0a0a0a] text-white py-32 px-6 sm:px-12 lg:px-20 relative overflow-hidden noise">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-[#0a0a0a] text-white py-32 relative overflow-hidden noise">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <ScrollReveal>
             <p className="eyebrow text-[#cc0000] mb-8">Our Purpose</p>
           </ScrollReveal>
@@ -125,18 +125,20 @@ export default function HomePage() {
           style={{ filter: "brightness(0.6)" }}
         />
         <div className="absolute inset-0 hero-overlay-bottom" />
-        <div className="absolute bottom-10 left-6 sm:left-12 lg:left-20">
+        <div className="absolute bottom-10 left-0 right-0">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <p className="eyebrow text-white/40 mb-3">Route Intelligence · Beta</p>
           <h3 className="display-md text-white mb-6 max-w-lg">Find your perfect ride in 5 questions.</h3>
           <Link href="/route-intelligence" className="btn btn-primary">
             Try Route Intelligence <ArrowUpRight className="w-4 h-4" />
           </Link>
+          </div>
         </div>
       </section>
 
       {/* ── UPCOMING EVENTS ─────────────────────────────────────────── */}
-      <section className="bg-white py-28 px-6 sm:px-12 lg:px-20">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-white py-28">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="flex items-end justify-between mb-16">
             <div>
               <ScrollReveal>
@@ -188,12 +190,12 @@ export default function HomePage() {
       </section>
 
       {/* ── MEMBERSHIP CTA ─────────────────────────────────────────── */}
-      <section className="relative bg-[#0a0a0a] text-white py-32 px-6 sm:px-12 lg:px-20 overflow-hidden noise">
+      <section className="relative bg-[#0a0a0a] text-white py-32 overflow-hidden noise">
         {/* Red glow */}
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse 60% 50% at 80% 50%, rgba(204,0,0,0.12) 0%, transparent 70%)" }} />
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div>
               <ScrollReveal>
@@ -245,8 +247,8 @@ export default function HomePage() {
       </section>
 
       {/* ── LATEST RIDE REPORTS ──────────────────────────────────────── */}
-      <section className="bg-[#f5f5f5] py-28 px-6 sm:px-12 lg:px-20">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-[#f5f5f5] py-28">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="flex items-end justify-between mb-16">
             <div>
               <ScrollReveal>
@@ -292,8 +294,8 @@ export default function HomePage() {
       </section>
 
       {/* ── LOCATION STRIP ───────────────────────────────────────────── */}
-      <section className="bg-[#0a0a0a] text-white py-20 px-6 sm:px-12 lg:px-20">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+      <section className="bg-[#0a0a0a] text-white py-20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
           <div>
             <p className="eyebrow text-[#cc0000] mb-3">Find Us</p>
             <h3 className="font-black text-2xl text-white mb-1">Arch 70, Albert Embankment</h3>
