@@ -9,8 +9,8 @@ export const metadata: Metadata = { title: "Membership" };
 export default function MembershipPage() {
   return (
     <div>
-      <section className="bg-black text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="bg-black text-white pt-[72px] pb-20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
           <p className="text-[#cc0000] font-semibold uppercase tracking-widest text-sm mb-3">Membership</p>
           <h1 className="text-5xl font-black mb-4">Join DOCLSE</h1>
           <p className="text-gray-300 text-lg max-w-xl mx-auto">
@@ -20,7 +20,7 @@ export default function MembershipPage() {
       </section>
 
       <section className="py-20 bg-gray-50">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {MEMBERSHIP_PLANS.map((plan) => (
               <div
@@ -93,7 +93,7 @@ export default function MembershipPage() {
       </section>
 
       <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <h2 className="text-2xl font-black text-gray-900 text-center mb-10">Frequently Asked Questions</h2>
           <div className="max-w-3xl mx-auto grid gap-6">
             {[

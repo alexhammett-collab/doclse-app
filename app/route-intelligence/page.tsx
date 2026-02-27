@@ -354,10 +354,10 @@ export default function RouteIntelligencePage() {
   return (
     <div style={{ background: "#0a0a0a", minHeight: "100vh" }}>
       {/* Hero */}
-      <div style={{ position: "relative", height: 320, overflow: "hidden" }}>
+      <div style={{ position: "relative", height: 320 + 72, overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #1a0000 0%, #0a0a0a 100%)" }} />
         <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 4, background: "#cc0000" }} />
-        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 2rem", maxWidth: 1200, margin: "0 auto" }}>
+        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "72px 2rem 0", maxWidth: 1200, margin: "0 auto" }}>
           <div>
             <div className="flex items-center gap-2 mb-3">
               <span style={{ fontSize: "0.7rem", letterSpacing: "0.25em", textTransform: "uppercase", color: "#cc0000", fontWeight: 700 }}>New Feature</span>

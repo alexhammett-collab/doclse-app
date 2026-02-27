@@ -145,10 +145,10 @@ export default function RidesClient() {
   return (
     <div style={{ background: "#0a0a0a", minHeight: "100vh" }}>
       {/* Hero */}
-      <div className="relative h-80 overflow-hidden">
+      <div className="relative overflow-hidden" style={{ height: "calc(320px + 72px)" }}>
         <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #1a0000 0%, #0a0a0a 100%)" }} />
         <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#cc0000]" />
-        <div className="absolute inset-0 flex items-center px-8 max-w-7xl mx-auto">
+        <div className="absolute inset-0 flex items-center px-8 max-w-7xl mx-auto" style={{ paddingTop: "72px" }}>
           <div>
             <div className="text-xs font-bold tracking-[0.25em] uppercase text-[#cc0000] mb-3">Plan Your Journey</div>
             <h1 className="font-black text-white leading-none" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
@@ -158,7 +158,7 @@ export default function RidesClient() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
         <div style={{ display: "grid", gridTemplateColumns: "380px 1fr", gap: "2rem", alignItems: "start" }}>
 
           {/* Ride list */}

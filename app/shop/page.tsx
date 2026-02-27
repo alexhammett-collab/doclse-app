@@ -9,8 +9,8 @@ import { useState } from "react";
 export default function ShopPage() {
   return (
     <div>
-      <section className="bg-black text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-black text-white pt-[72px] pb-20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <p className="text-[#cc0000] font-semibold uppercase tracking-widest text-sm mb-3">Shop</p>
           <h1 className="text-5xl font-black mb-4">DOCLSE Merchandise</h1>
           <p className="text-gray-300 text-lg">Official club gear. Wear your passion.</p>
@@ -18,7 +18,7 @@ export default function ShopPage() {
       </section>
 
       <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {PRODUCTS.map((product) => (
               <ProductCard key={product.slug} product={product} />

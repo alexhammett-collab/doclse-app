@@ -10,8 +10,8 @@ export default function DiscountsPage() {
 
   return (
     <div>
-      <section className="bg-black text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-black text-white pt-[72px] pb-20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <p className="text-[#cc0000] font-semibold uppercase tracking-widest text-sm mb-3">Full Members Only</p>
           <h1 className="text-5xl font-black mb-4">Member Discounts</h1>
           <p className="text-gray-300 text-lg max-w-xl">
@@ -21,7 +21,7 @@ export default function DiscountsPage() {
       </section>
 
       <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-10 flex items-start gap-4">
             <Lock className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
             <div>

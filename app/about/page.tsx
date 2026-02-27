@@ -8,8 +8,8 @@ export default function AboutPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-black text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-black text-white pt-[72px] pb-20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="max-w-2xl">
             <p className="text-[#cc0000] font-semibold uppercase tracking-widest text-sm mb-3">About The Club</p>
             <h1 className="text-5xl font-black mb-6">Ducati Official Club<br /><span className="text-[#cc0000]">London &amp; South East</span></h1>
@@ -23,7 +23,7 @@ export default function AboutPage() {
 
       {/* Story */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-3xl font-black text-gray-900 mb-6">Our Story</h2>
@@ -67,7 +67,7 @@ export default function AboutPage() {
 
       {/* What we do */}
       <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <h2 className="text-3xl font-black text-gray-900 text-center mb-12">What We Do</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -99,7 +99,7 @@ export default function AboutPage() {
 
       {/* Membership benefits */}
       <section className="py-20 bg-black text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
           <h2 className="text-3xl font-black mb-4">Membership Benefits</h2>
           <p className="text-gray-400 mb-10 max-w-xl mx-auto">
             Subscriber membership is free. Upgrade to Full Member to unlock the full Ducatista experience.
@@ -130,7 +130,7 @@ export default function AboutPage() {
 
       {/* Team CTA */}
       <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
           <h2 className="text-2xl font-black text-gray-900 mb-3">Meet the Team</h2>
           <p className="text-gray-500 mb-6">The passionate people who make DOCLSE happen.</p>
           <Link href="/team"

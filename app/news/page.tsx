@@ -11,8 +11,8 @@ export default function NewsPage() {
 
   return (
     <div>
-      <section className="bg-black text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-black text-white pt-[72px] pb-20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <p className="text-[#cc0000] font-semibold uppercase tracking-widest text-sm mb-3">News</p>
           <h1 className="text-5xl font-black mb-4">Ride Reports &amp; Reviews</h1>
           <p className="text-gray-300 text-lg max-w-xl">Stories from the road, written by DOCLSE members.</p>
@@ -20,7 +20,7 @@ export default function NewsPage() {
       </section>
 
       <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           {reviews.length > 0 && (
             <div className="mb-14">
               <h2 className="text-2xl font-black text-gray-900 mb-6">Reviews</h2>

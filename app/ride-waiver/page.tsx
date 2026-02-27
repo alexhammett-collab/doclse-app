@@ -41,7 +41,7 @@ export default function RideWaiverPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12 pt-[88px] pb-12">
       <div className="mb-8">
         <h1 className="text-4xl font-black text-gray-900 mb-2">Ride Waiver</h1>
         <p className="text-gray-500">All participants in DOCLSE organised rideouts must complete this waiver before riding.</p>

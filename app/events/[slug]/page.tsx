@@ -30,7 +30,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
   const related = EVENTS.filter((e) => e.slug !== slug && e.category === event.category).slice(0, 3);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 pt-[88px] pb-12">
       <Link href="/events" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-[#cc0000] mb-8 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Events
       </Link>

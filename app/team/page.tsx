@@ -7,8 +7,8 @@ export const metadata: Metadata = { title: "The Team" };
 export default function TeamPage() {
   return (
     <div>
-      <section className="bg-black text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-black text-white pt-[72px] pb-20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <p className="text-[#cc0000] font-semibold uppercase tracking-widest text-sm mb-3">Our Team</p>
           <h1 className="text-5xl font-black mb-4">Meet the Committee</h1>
           <p className="text-gray-300 text-lg max-w-xl">
@@ -18,7 +18,7 @@ export default function TeamPage() {
       </section>
 
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {TEAM.map((member) => (
               <div key={member.name} className="bg-gray-50 rounded-2xl p-8 text-center hover:shadow-md transition-shadow">

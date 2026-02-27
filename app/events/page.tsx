@@ -15,7 +15,7 @@ const CATEGORY_COLOURS: Record<string, string> = {
 
 export default function EventsPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-[88px] pb-12">
       <div className="mb-10">
         <h1 className="text-4xl font-black text-gray-900 mb-2">Events</h1>
         <p className="text-gray-500 text-lg">All upcoming DOCLSE rides, socials and special events.</p>

@@ -70,7 +70,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 pt-[88px] pb-12">
       <Link href="/cart" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-[#cc0000] mb-8 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Cart
       </Link>
