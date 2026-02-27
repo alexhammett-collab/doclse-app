@@ -22,33 +22,63 @@ function toXY(lat: number, lng: number) {
   return { x, y };
 }
 
+/* ─── Simplified continent SVG paths (equirectangular, viewBox 0 0 1000 500) ── */
+const CONTINENT_PATHS = [
+  // North America
+  "M120 60 L155 55 185 70 210 90 230 115 235 140 220 160 225 185 210 195 195 175 180 180 165 195 145 200 130 185 115 190 100 175 90 160 85 140 80 120 85 95 95 75 Z",
+  // South America
+  "M195 235 L210 225 225 230 235 250 240 270 245 295 240 320 235 345 225 370 215 385 200 395 190 380 185 360 180 340 175 315 178 290 182 265 185 250 Z",
+  // Europe
+  "M460 65 L475 60 495 58 510 62 520 70 525 80 518 90 510 100 500 110 490 115 480 108 470 95 465 85 458 75 Z",
+  // Africa
+  "M470 155 L485 145 505 140 520 145 535 155 545 170 548 195 545 220 540 250 535 275 525 300 515 315 505 325 490 330 478 320 470 300 465 275 460 250 458 225 460 200 462 175 Z",
+  // Asia
+  "M530 55 L560 50 590 45 620 42 660 48 700 55 730 60 755 68 770 80 780 95 782 110 775 125 768 140 755 148 740 145 720 150 700 160 680 155 660 148 645 155 630 165 615 160 600 150 585 140 570 130 555 118 540 108 528 95 525 80 Z",
+  // Southeast Asia & Indonesia
+  "M700 170 L715 165 735 168 750 178 762 190 770 205 765 215 748 220 730 218 715 210 705 195 Z M775 218 L790 215 805 222 810 235 800 240 785 235 Z",
+  // Australia
+  "M770 305 L790 295 810 290 835 295 850 305 858 320 855 340 845 355 830 362 810 358 790 350 775 340 768 325 Z",
+  // Japan/Korea
+  "M790 90 L795 80 802 75 808 82 806 92 800 98 792 95 Z",
+  // UK/Ireland
+  "M448 68 L455 65 460 70 458 78 452 80 448 74 Z",
+  // Greenland
+  "M295 20 L320 15 340 18 348 28 342 40 325 45 310 42 298 35 Z",
+];
+
 /* ─── Globe / world map ───────────────────────────────────────────── */
 function WorldDots({ selected, onSelect }: {
   selected: Rider | null;
   onSelect: (r: Rider) => void;
 }) {
-  const [tick, setTick] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => setTick(t => t + 1), 1200);
-    return () => clearInterval(id);
-  }, []);
-
   return (
-    <div className="relative w-full" style={{ paddingBottom: "50%", background: "transparent" }}>
-      {/* Faint world map SVG outline (simplified continent shapes via CSS) */}
-      <div className="absolute inset-0 overflow-hidden rounded-xl">
-        {/* Grid lines */}
-        {[20, 40, 60, 80].map(x => (
-          <div key={`vl${x}`} className="absolute top-0 bottom-0 w-px opacity-[0.06]"
-            style={{ left: `${x}%`, background: "#fff" }} />
-        ))}
-        {[25, 50, 75].map(y => (
-          <div key={`hl${y}`} className="absolute left-0 right-0 h-px opacity-[0.06]"
-            style={{ top: `${y}%`, background: "#fff" }} />
-        ))}
+    <div className="relative w-full" style={{ paddingBottom: "50%" }}>
+      <div className="absolute inset-0 overflow-hidden">
 
-        {/* Rider dots */}
+        {/* SVG world map with continents */}
+        <svg
+          viewBox="0 0 1000 500"
+          className="absolute inset-0 w-full h-full"
+          preserveAspectRatio="xMidYMid slice"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Subtle graticule grid */}
+          {[100,200,300,400,500,600,700,800,900].map(x => (
+            <line key={`v${x}`} x1={x} y1={0} x2={x} y2={500} stroke="white" strokeOpacity={0.04} strokeWidth={0.5} />
+          ))}
+          {[100,200,300,400].map(y => (
+            <line key={`h${y}`} x1={0} y1={y} x2={1000} y2={y} stroke="white" strokeOpacity={0.04} strokeWidth={0.5} />
+          ))}
+          {/* Equator */}
+          <line x1={0} y1={250} x2={1000} y2={250} stroke="rgba(204,0,0,0.12)" strokeWidth={0.5} strokeDasharray="6 4" />
+
+          {/* Continent shapes */}
+          {CONTINENT_PATHS.map((d, i) => (
+            <path key={i} d={d} fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" strokeWidth={0.8} />
+          ))}
+        </svg>
+
+        {/* Rider dots (HTML overlay for interactivity) */}
         {RIDERS.map((r) => {
           const { x, y } = toXY(r.lat, r.lng);
           const isSelected = selected?.id === r.id;
@@ -60,13 +90,12 @@ function WorldDots({ selected, onSelect }: {
               style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%,-50%)", zIndex: isSelected ? 10 : 2 }}
               title={`${r.name} · ${r.city}`}
             >
-              {/* Pulse ring for active riders */}
               {r.active && (
                 <span
                   className="absolute inset-0 rounded-full"
                   style={{
                     animation: `ping ${1.5 + (parseInt(r.id.slice(1)) % 4) * 0.3}s cubic-bezier(0,0,0.2,1) infinite`,
-                    background: "rgba(204,0,0,0.4)",
+                    background: "rgba(204,0,0,0.35)",
                     transform: "scale(2.5)",
                     animationDelay: `${(parseInt(r.id.slice(1)) % 6) * 0.2}s`,
                   }}
@@ -75,15 +104,14 @@ function WorldDots({ selected, onSelect }: {
               <span
                 className="relative block rounded-full transition-all duration-200"
                 style={{
-                  width: isSelected ? 14 : r.active ? 10 : 6,
-                  height: isSelected ? 14 : r.active ? 10 : 6,
-                  background: isSelected ? "#fff" : r.active ? "#cc0000" : "rgba(255,255,255,0.25)",
-                  boxShadow: r.active ? "0 0 8px rgba(204,0,0,0.8)" : "none",
+                  width: isSelected ? 14 : r.active ? 10 : 5,
+                  height: isSelected ? 14 : r.active ? 10 : 5,
+                  background: isSelected ? "#fff" : r.active ? "#cc0000" : "rgba(255,255,255,0.2)",
+                  boxShadow: isSelected ? "0 0 20px rgba(204,0,0,0.6)" : r.active ? "0 0 12px rgba(204,0,0,0.7)" : "none",
                   border: isSelected ? "2px solid #cc0000" : "none",
                 }}
               />
-              {/* Tooltip */}
-              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap text-[0.65rem] font-bold bg-black/90 text-white px-2 py-1 rounded pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-20">
+              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap text-[0.6rem] font-bold bg-black/95 text-white px-2.5 py-1 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-20">
                 {r.name} · {r.city} {r.countryCode}
               </span>
             </button>
@@ -92,13 +120,13 @@ function WorldDots({ selected, onSelect }: {
       </div>
 
       {/* Legend */}
-      <div className="absolute bottom-3 left-3 flex items-center gap-4 z-10">
-        <span className="flex items-center gap-1.5 text-[0.6rem] font-bold text-white/40 uppercase tracking-wider">
-          <span className="w-2 h-2 rounded-full bg-[#cc0000] inline-block" style={{ boxShadow: "0 0 6px rgba(204,0,0,0.8)" }} />
+      <div className="absolute bottom-4 left-4 flex items-center gap-5 z-10">
+        <span className="flex items-center gap-2 text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.15em]">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#cc0000]" style={{ boxShadow: "0 0 8px rgba(204,0,0,0.6)" }} />
           Riding now
         </span>
-        <span className="flex items-center gap-1.5 text-[0.6rem] font-bold text-white/40 uppercase tracking-wider">
-          <span className="w-2 h-2 rounded-full bg-white/25 inline-block" />
+        <span className="flex items-center gap-2 text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.15em]">
+          <span className="w-2 h-2 rounded-full bg-white/20" />
           Member
         </span>
       </div>
@@ -109,8 +137,8 @@ function WorldDots({ selected, onSelect }: {
 /* ─── Rider card ──────────────────────────────────────────────────── */
 function RiderCard({ rider, onClose }: { rider: Rider; onClose: () => void }) {
   return (
-    <div className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#111] animate-fade-up">
-      <div className="p-5 border-b border-white/[0.06] flex items-start justify-between gap-3">
+    <div className="overflow-hidden bg-[#0e0e0e] animate-fade-up" style={{ border: "1px solid rgba(255,255,255,0.04)" }}>
+      <div className="p-5 flex items-start justify-between gap-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
         <div className="flex items-center gap-3">
           <div
             className="w-11 h-11 rounded-full flex items-center justify-center font-black text-sm text-white shrink-0"
@@ -135,7 +163,7 @@ function RiderCard({ rider, onClose }: { rider: Rider; onClose: () => void }) {
         <button onClick={onClose} className="text-white/25 hover:text-white transition-colors text-lg leading-none">&times;</button>
       </div>
 
-      <div className="grid grid-cols-3 divide-x divide-white/[0.06] text-center">
+      <div className="grid grid-cols-3 text-center" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
         {[
           { value: fmtKm(rider.totalKm), label: "km logged" },
           { value: rider.totalRides.toString(), label: "rides" },
@@ -207,11 +235,11 @@ export default function PulseClient() {
   }
 
   return (
-    <div className="bg-[#070707] min-h-screen text-white" style={{ paddingTop: 72 }}>
+    <div className="bg-black min-h-screen text-white" style={{ paddingTop: 72 }}>
 
       {/* ── HERO HEADER ───────────────────────────────────────────── */}
-      <div className="relative overflow-hidden border-b border-white/[0.06]"
-        style={{ background: "linear-gradient(160deg, #1a0000 0%, #0a0a0a 60%)" }}>
+      <div className="relative overflow-hidden"
+        style={{ background: "linear-gradient(160deg, #1a0000 0%, #060606 60%)" }}>
         <div className="absolute inset-0 pointer-events-none" style={{
           background: "radial-gradient(ellipse 60% 100% at 80% 50%, rgba(204,0,0,0.12) 0%, transparent 70%)"
         }} />
@@ -242,7 +270,7 @@ export default function PulseClient() {
             </div>
 
             {/* Live stats */}
-            <div className="grid grid-cols-3 gap-px bg-white/[0.06] rounded-2xl overflow-hidden shrink-0">
+            <div className="grid grid-cols-3 gap-px bg-white/[0.04] overflow-hidden shrink-0">
               {[
                 { icon: <Zap className="w-4 h-4" />,    value: liveCount.toString(),        label: "Riding now",    accent: true },
                 { icon: <Globe className="w-4 h-4" />,   value: COUNTRY_COUNT.toString(),    label: "Countries",     accent: false },
@@ -267,7 +295,7 @@ export default function PulseClient() {
           <div className="lg:col-span-2 space-y-6">
 
             {/* Map area */}
-            <div className="rounded-2xl overflow-hidden border border-white/[0.07] bg-[#0d0d0d] p-4 sm:p-6">
+            <div className="overflow-hidden bg-[#0a0a0a] p-4 sm:p-6" style={{ border: "1px solid rgba(255,255,255,0.04)" }}>
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <Globe className="w-4 h-4 text-white/25" />
@@ -297,10 +325,10 @@ export default function PulseClient() {
                   <button
                     key={r.id}
                     onClick={() => handleMapSelect(r)}
-                    className={`shrink-0 flex flex-col items-center gap-2 p-3 rounded-xl border transition-all ${
+                    className={`shrink-0 flex flex-col items-center gap-2 p-3 transition-all ${
                       selected?.id === r.id
-                        ? "border-[#cc0000]/50 bg-[#cc0000]/10"
-                        : "border-white/[0.07] bg-[#0f0f0f] hover:border-white/20"
+                        ? "bg-[#cc0000]/10"
+                        : "bg-[#0c0c0c] hover:bg-[#111]"
                     }`}
                     style={{ minWidth: 88 }}
                   >
@@ -328,7 +356,7 @@ export default function PulseClient() {
               </div>
             </div>
 
-            <div ref={feedRef} className="space-y-1 rounded-2xl border border-white/[0.07] bg-[#0d0d0d] p-2 max-h-[600px] overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "#cc0000 transparent" }}>
+            <div ref={feedRef} className="space-y-1 bg-[#0a0a0a] p-2 max-h-[600px] overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "#cc0000 transparent", border: "1px solid rgba(255,255,255,0.04)" }}>
               {MOMENTS.map(m => (
                 <MomentItem
                   key={m.id}
@@ -342,7 +370,7 @@ export default function PulseClient() {
             </div>
 
             {/* Your moment CTA */}
-            <div className="rounded-2xl border border-white/[0.07] bg-[#0d0d0d] p-5">
+            <div className="bg-[#0a0a0a] p-5" style={{ border: "1px solid rgba(255,255,255,0.04)" }}>
               <p className="text-[0.65rem] font-black text-white/25 uppercase tracking-[0.2em] mb-3">Share a moment</p>
               <div className="bg-[#151515] rounded-xl border border-white/[0.06] p-4 mb-3">
                 <p className="text-white/20 text-sm italic">Where are you riding today?</p>
@@ -388,9 +416,10 @@ export default function PulseClient() {
               <button
                 key={r.id}
                 onClick={() => { handleMapSelect(r); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-                className={`text-left p-4 rounded-xl border transition-all hover:border-white/20 ${
-                  r.active ? "border-[#cc0000]/20 bg-[#cc0000]/[0.04]" : "border-white/[0.06] bg-[#0d0d0d]"
+                className={`text-left p-4 transition-all hover:bg-[#111] ${
+                  r.active ? "bg-[#cc0000]/[0.04]" : "bg-[#0a0a0a]"
                 }`}
+                style={{ border: "1px solid rgba(255,255,255,0.04)" }}
               >
                 <div className="flex items-center gap-3 mb-3">
                   <div
