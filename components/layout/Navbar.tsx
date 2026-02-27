@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X, ShoppingCart, User, ChevronDown, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth-context";
@@ -43,146 +43,159 @@ export default function Navbar() {
   const count = useCart((s) => s.count());
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 48);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const isHome = pathname === "/";
+  const transparent = isHome && !scrolled && !mobileOpen;
 
   return (
-    <header className="sticky top-0 z-50 bg-black text-white shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-8 h-8 bg-[#cc0000] rounded-full flex items-center justify-center font-bold text-xs">
-              DOC
-            </div>
-            <span className="font-bold text-base hidden sm:block tracking-wide">
-              DOC <span className="text-[#cc0000]">LSE</span>
-            </span>
-          </Link>
+    <header
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        transparent
+          ? "bg-transparent"
+          : "bg-black/90 backdrop-blur-xl border-b border-white/[0.06]"
+      )}
+      style={{ height: "var(--nav-height)" }}
+    >
+      <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {NAV_ITEMS.map((item) =>
-              item.children ? (
-                <div
-                  key={item.label}
-                  className="relative"
-                  onMouseEnter={() => setOpenDropdown(item.label)}
-                  onMouseLeave={() => setOpenDropdown(null)}
-                >
-                  <button className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-200 hover:text-white hover:bg-gray-800 rounded-md transition-colors">
-                    {item.label}
-                    <ChevronDown className="w-3 h-3" />
-                  </button>
-                  {openDropdown === item.label && (
-                    <div className="absolute top-full left-0 mt-1 w-52 bg-gray-900 border border-gray-700 rounded-md shadow-xl py-1 z-50">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-800 hover:text-white transition-colors"
-                          onClick={() => setOpenDropdown(null)}
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href!}
-                  className={cn(
-                    "px-3 py-2 text-sm font-medium rounded-md transition-colors",
-                    pathname === item.href
-                      ? "text-white bg-gray-800"
-                      : "text-gray-200 hover:text-white hover:bg-gray-800"
-                  )}
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
-          </nav>
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-3 shrink-0">
+          <div className="w-8 h-8 bg-[#cc0000] rounded-full flex items-center justify-center font-black text-[0.6rem] tracking-wider text-white">
+            DOC
+          </div>
+          <span className="font-black text-white text-base tracking-widest hidden sm:block">
+            DOC<span className="text-[#cc0000]">LSE</span>
+          </span>
+        </Link>
 
-          {/* Right actions */}
-          <div className="flex items-center gap-2">
-            <Link
-              href="/cart"
-              className="relative p-2 text-gray-200 hover:text-white hover:bg-gray-800 rounded-md transition-colors"
-            >
-              <ShoppingCart className="w-5 h-5" />
-              {count > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#cc0000] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-bold">
-                  {count}
-                </span>
-              )}
-            </Link>
-
-            {user ? (
-              <div className="relative group hidden lg:block"
-                onMouseEnter={() => setOpenDropdown("user")}
+        {/* Desktop Nav */}
+        <nav className="hidden lg:flex items-center gap-0.5">
+          {NAV_ITEMS.map((item) =>
+            item.children ? (
+              <div
+                key={item.label}
+                className="relative"
+                onMouseEnter={() => setOpenDropdown(item.label)}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
-                <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-200 hover:text-white hover:bg-gray-800 rounded-md transition-colors">
-                  <User className="w-4 h-4" />
-                  <span className="hidden xl:block">{user.name.split(" ")[0]}</span>
+                <button className="flex items-center gap-1 px-3.5 py-2 text-sm font-medium text-white/75 hover:text-white rounded-full transition-colors hover:bg-white/[0.08]">
+                  {item.label}
+                  <ChevronDown className="w-3 h-3 opacity-60" />
                 </button>
-                {openDropdown === "user" && (
-                  <div className="absolute right-0 top-full mt-1 w-48 bg-gray-900 border border-gray-700 rounded-md shadow-xl py-1 z-50">
-                    <div className="px-4 py-2 border-b border-gray-700">
-                      <p className="text-xs text-gray-400">Signed in as</p>
-                      <p className="text-sm font-medium text-white truncate">{user.name}</p>
-                      <span className="inline-block text-xs bg-[#cc0000] text-white px-2 py-0.5 rounded-full mt-1 capitalize">
-                        {user.role}
-                      </span>
-                    </div>
-                    <Link href="/account" className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-800 hover:text-white">
-                      My Account
-                    </Link>
-                    <button
-                      onClick={logout}
-                      className="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-gray-200 hover:bg-gray-800 hover:text-white"
-                    >
-                      <LogOut className="w-4 h-4" /> Sign Out
-                    </button>
+                {openDropdown === item.label && (
+                  <div className="absolute top-full left-0 mt-2 w-56 bg-[#111]/95 backdrop-blur-xl border border-white/[0.08] rounded-2xl shadow-2xl py-2 z-50 overflow-hidden">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        className="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/[0.06] transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
                   </div>
                 )}
               </div>
             ) : (
               <Link
-                href="/login"
-                className="hidden lg:flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-200 hover:text-white hover:bg-gray-800 rounded-md transition-colors"
+                key={item.href}
+                href={item.href!}
+                className={cn(
+                  "px-3.5 py-2 text-sm font-medium rounded-full transition-colors",
+                  pathname === item.href
+                    ? "text-white bg-white/10"
+                    : "text-white/75 hover:text-white hover:bg-white/[0.08]"
+                )}
               >
-                <User className="w-4 h-4" /> Login
+                {item.label}
               </Link>
-            )}
+            )
+          )}
+        </nav>
 
-            {/* Mobile menu toggle */}
-            <button
-              className="lg:hidden p-2 text-gray-200 hover:text-white hover:bg-gray-800 rounded-md"
-              onClick={() => setMobileOpen(!mobileOpen)}
+        {/* Right actions */}
+        <div className="flex items-center gap-1">
+          <Link href="/cart" className="relative p-2.5 text-white/70 hover:text-white rounded-full hover:bg-white/[0.08] transition-colors">
+            <ShoppingCart className="w-4.5 h-4.5" style={{ width: 18, height: 18 }} />
+            {count > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 bg-[#cc0000] text-white text-[0.6rem] rounded-full w-4 h-4 flex items-center justify-center font-bold leading-none">
+                {count}
+              </span>
+            )}
+          </Link>
+
+          {user ? (
+            <div
+              className="relative hidden lg:block"
+              onMouseEnter={() => setOpenDropdown("user")}
+              onMouseLeave={() => setOpenDropdown(null)}
             >
-              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
+              <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white/70 hover:text-white rounded-full hover:bg-white/[0.08] transition-colors">
+                <div className="w-6 h-6 rounded-full bg-[#cc0000] flex items-center justify-center text-[0.6rem] font-black text-white">
+                  {user.name[0]}
+                </div>
+                <span className="hidden xl:block">{user.name.split(" ")[0]}</span>
+              </button>
+              {openDropdown === "user" && (
+                <div className="absolute right-0 top-full mt-2 w-52 bg-[#111]/95 backdrop-blur-xl border border-white/[0.08] rounded-2xl shadow-2xl py-2 z-50 overflow-hidden">
+                  <div className="px-4 py-3 border-b border-white/[0.06]">
+                    <p className="text-xs text-white/40 mb-0.5">Signed in as</p>
+                    <p className="text-sm font-semibold text-white truncate">{user.name}</p>
+                    <span className="inline-block text-[0.65rem] bg-[#cc0000] text-white px-2 py-0.5 rounded-full mt-1.5 font-bold uppercase tracking-wider capitalize">
+                      {user.role}
+                    </span>
+                  </div>
+                  <Link href="/account" className="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/[0.06] transition-colors" onClick={() => setOpenDropdown(null)}>
+                    My Account
+                  </Link>
+                  <button onClick={logout} className="w-full text-left flex items-center gap-2 px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/[0.06] transition-colors">
+                    <LogOut className="w-3.5 h-3.5" /> Sign Out
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="hidden lg:flex items-center gap-2 btn btn-primary !py-2 !px-4 !text-xs"
+            >
+              <User className="w-3.5 h-3.5" /> Login
+            </Link>
+          )}
+
+          <button
+            className="lg:hidden p-2.5 text-white/70 hover:text-white rounded-full hover:bg-white/[0.08] transition-colors"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden border-t border-gray-800 bg-black">
-          <div className="px-4 py-3 space-y-1">
+        <div className="lg:hidden bg-black/95 backdrop-blur-xl border-t border-white/[0.06]">
+          <div className="px-6 py-4 space-y-1 max-h-[80vh] overflow-y-auto">
             {NAV_ITEMS.map((item) =>
               item.children ? (
-                <div key={item.label}>
-                  <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-400">
+                <div key={item.label} className="mb-2">
+                  <p className="px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white/30">
                     {item.label}
                   </p>
                   {item.children.map((child) => (
                     <Link
                       key={child.href}
                       href={child.href}
-                      className="block px-6 py-2 text-sm text-gray-200 hover:text-white hover:bg-gray-800 rounded-md"
+                      className="block px-3 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/[0.06] rounded-xl transition-colors"
                       onClick={() => setMobileOpen(false)}
                     >
                       {child.label}
@@ -194,10 +207,10 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href!}
                   className={cn(
-                    "block px-3 py-2 text-sm font-medium rounded-md",
+                    "block px-3 py-2.5 text-sm font-medium rounded-xl transition-colors",
                     pathname === item.href
-                      ? "text-white bg-gray-800"
-                      : "text-gray-200 hover:text-white hover:bg-gray-800"
+                      ? "text-white bg-white/10"
+                      : "text-white/70 hover:text-white hover:bg-white/[0.06]"
                   )}
                   onClick={() => setMobileOpen(false)}
                 >
@@ -205,18 +218,18 @@ export default function Navbar() {
                 </Link>
               )
             )}
-            <div className="pt-2 border-t border-gray-800">
+            <div className="pt-3 mt-3 border-t border-white/[0.06]">
               {user ? (
                 <>
-                  <Link href="/account" className="block px-3 py-2 text-sm text-gray-200 hover:text-white hover:bg-gray-800 rounded-md" onClick={() => setMobileOpen(false)}>
-                    My Account ({user.name})
+                  <Link href="/account" className="block px-3 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/[0.06] rounded-xl" onClick={() => setMobileOpen(false)}>
+                    My Account
                   </Link>
-                  <button onClick={() => { logout(); setMobileOpen(false); }} className="flex items-center gap-2 w-full px-3 py-2 text-sm text-gray-200 hover:text-white hover:bg-gray-800 rounded-md">
+                  <button onClick={() => { logout(); setMobileOpen(false); }} className="flex items-center gap-2 w-full px-3 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/[0.06] rounded-xl">
                     <LogOut className="w-4 h-4" /> Sign Out
                   </button>
                 </>
               ) : (
-                <Link href="/login" className="block px-3 py-2 text-sm text-gray-200 hover:text-white hover:bg-gray-800 rounded-md" onClick={() => setMobileOpen(false)}>
+                <Link href="/login" className="block px-3 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/[0.06] rounded-xl" onClick={() => setMobileOpen(false)}>
                   Login / Register
                 </Link>
               )}

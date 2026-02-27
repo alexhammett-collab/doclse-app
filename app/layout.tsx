@@ -28,7 +28,7 @@ export default function RootLayout({
       <body className="antialiased min-h-screen flex flex-col bg-white text-gray-900">
         <AuthProvider>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 min-h-screen">{children}</main>
           <Footer />
           <MembersChat />
         </AuthProvider>

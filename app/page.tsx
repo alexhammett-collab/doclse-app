@@ -1,256 +1,315 @@
 import Link from "next/link";
-import { ArrowRight, Calendar, Users, Star, MapPin, ChevronRight } from "lucide-react";
+import { ArrowRight, Calendar, MapPin, ArrowUpRight } from "lucide-react";
 import { EVENTS, RIDE_REPORTS } from "@/lib/data";
 import { formatDate } from "@/lib/utils";
-
-const CATEGORY_COLOURS: Record<string, string> = {
-  Rideout: "bg-blue-100 text-blue-800",
-  Training: "bg-green-100 text-green-800",
-  Social: "bg-purple-100 text-purple-800",
-  Special: "bg-yellow-100 text-yellow-800",
-};
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function HomePage() {
   const upcomingEvents = EVENTS.slice(0, 3);
   const latestReports = RIDE_REPORTS.slice(0, 3);
 
   return (
-    <div className="animate-fade-in">
-      {/* Hero */}
-      <section className="relative bg-black text-white overflow-hidden min-h-[580px] flex items-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-[#1a0000]" />
-        <div className="absolute inset-0 opacity-10"
-          style={{ backgroundImage: "radial-gradient(circle at 70% 50%, #cc0000 0%, transparent 60%)" }}
+    <div>
+
+      {/* ── HERO ── Full-viewport, edge-to-edge, Rivian-style ─────────── */}
+      <section className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100svh" }}>
+        {/* Background image */}
+        <img
+          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1800&q=90&auto=format&fit=crop"
+          alt="Ducati on the road"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          style={{ filter: "brightness(0.45)" }}
         />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 bg-[#cc0000]/20 border border-[#cc0000]/30 text-[#ff6666] text-sm font-medium px-3 py-1.5 rounded-full mb-6">
-              <span className="w-2 h-2 rounded-full bg-[#cc0000] animate-pulse" />
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 hero-overlay" />
+        {/* Red accent bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-40"
+          style={{ background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%)" }} />
+
+        {/* Content */}
+        <div className="relative z-10 flex flex-col justify-end h-full px-6 sm:px-12 lg:px-20 pb-20 pt-36"
+          style={{ minHeight: "100svh" }}>
+          <div className="max-w-4xl">
+            <div className="pill pill-red mb-8 animate-fade-up">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#cc0000] inline-block" />
               Founded April 2024 · London &amp; South East
             </div>
-            <h1 className="text-5xl sm:text-6xl font-black tracking-tight mb-6 leading-tight">
-              Ducati Official Club<br />
-              <span className="text-[#cc0000]">London &amp; South East</span>
+            <h1 className="display-xl text-white mb-6 animate-fade-up delay-100">
+              Built for<br />
+              <span style={{ color: "#cc0000" }}>Ducatistas.</span>
             </h1>
-            <p className="text-lg text-gray-300 mb-8 leading-relaxed max-w-xl">
+            <p className="text-white/60 text-lg sm:text-xl leading-relaxed max-w-xl mb-10 font-light animate-fade-up delay-200">
               Whether you ride, passenger, or simply love the brand — DOCLSE brings together
-              Ducatistas across London and the South East for rides, events, and pure passion.
+              riders across London and the South East.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                href="/membership"
-                className="inline-flex items-center gap-2 bg-[#cc0000] hover:bg-[#990000] text-white font-semibold px-6 py-3 rounded-md transition-colors"
-              >
+            <div className="flex flex-wrap gap-4 animate-fade-up delay-300">
+              <Link href="/membership" className="btn btn-primary">
                 Join the Club <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link
-                href="/events"
-                className="inline-flex items-center gap-2 border border-white/30 hover:border-white text-white font-semibold px-6 py-3 rounded-md transition-colors hover:bg-white/5"
-              >
-                Upcoming Events <Calendar className="w-4 h-4" />
+              <Link href="/rides" className="btn btn-outline-white">
+                Explore Rides
               </Link>
             </div>
           </div>
         </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 right-8 animate-fade-up delay-600 hidden md:flex flex-col items-center gap-2">
+          <span className="text-white/30 text-[0.65rem] font-bold tracking-[0.2em] uppercase rotate-90 origin-center mb-4">Scroll</span>
+          <div className="w-px h-12 bg-gradient-to-b from-white/30 to-transparent" />
+        </div>
       </section>
 
-      {/* Stats strip */}
-      <section className="bg-[#cc0000] text-white py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+      {/* ── STATS TICKER ─────────────────────────────────────────────── */}
+      <section className="bg-[#cc0000] text-white">
+        <div className="max-w-7xl mx-auto px-6 sm:px-12">
+          <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-white/20">
             {[
               { value: "150+", label: "Members" },
               { value: "30+", label: "Events in 2025" },
               { value: "15+", label: "Partner Discounts" },
-              { value: "Apr 2024", label: "Founded" },
+              { value: "2024", label: "Founded" },
             ].map((stat) => (
-              <div key={stat.label}>
-                <div className="text-2xl font-black">{stat.value}</div>
-                <div className="text-sm text-red-100">{stat.label}</div>
+              <div key={stat.label} className="py-8 px-6 text-center">
+                <div className="font-black text-3xl sm:text-4xl tracking-tight leading-none mb-1">{stat.value}</div>
+                <div className="text-xs font-bold tracking-[0.15em] uppercase text-white/60">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* What we do */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-black text-gray-900 mb-3">What We Do</h2>
-            <p className="text-gray-500 max-w-xl mx-auto">
-              DOCLSE is for everyone who loves Ducati — from track days to Sunday rideouts.
+      {/* ── EDITORIAL MANIFESTO ──────────────────────────────────────── */}
+      <section className="bg-[#0a0a0a] text-white py-32 px-6 sm:px-12 lg:px-20 relative overflow-hidden noise">
+        <div className="max-w-7xl mx-auto">
+          <ScrollReveal>
+            <p className="eyebrow text-[#cc0000] mb-8">Our Purpose</p>
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <h2 className="display-lg text-white max-w-4xl mb-12 text-balance">
+              For everyone<br />who feels something<br />
+              <span style={{ color: "#cc0000" }}>when a Ducati starts.</span>
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal delay={200}>
+            <p className="text-white/50 text-lg leading-relaxed max-w-2xl mb-16 font-light">
+              DOCLSE is the official Ducati club for London and the South East. We exist for the
+              riders, the passengers, the dreamers, and the devotees — united by an unshakeable
+              passion for the most beautiful motorcycles ever made.
             </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          </ScrollReveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/[0.06]">
             {[
-              {
-                icon: "🏍️",
-                title: "We Ride Bikes",
-                desc: "Organised monthly rideouts across all compass points. From coastal blasts to country lanes.",
-              },
-              {
-                icon: "🤝",
-                title: "We Support Charities",
-                desc: "Giving back through charity rideouts and events that support causes close to members' hearts.",
-              },
-              {
-                icon: "❤️",
-                title: "We Bring People Together",
-                desc: "Social events, BBQs, track days, and the World Ducati Week — all united by a love of Ducati.",
-              },
+              { num: "01", title: "We Ride", desc: "Monthly organised rideouts across all compass points. From Surrey Hills hairpins to Kent coastal blasts." },
+              { num: "02", title: "We Give Back", desc: "Charity rideouts and community events. We believe passion has a responsibility to make the world better." },
+              { num: "03", title: "We Connect", desc: "Track days, BBQs, World Ducati Week. Every gathering strengthens the family that Ducati built." },
             ].map((item) => (
-              <div key={item.title} className="text-center p-8 rounded-xl border border-gray-100 hover:border-[#cc0000]/20 hover:shadow-md transition-all">
-                <div className="text-5xl mb-4">{item.icon}</div>
-                <h3 className="font-bold text-gray-900 text-lg mb-2">{item.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
-              </div>
+              <ScrollReveal key={item.num}>
+                <div className="bg-[#0a0a0a] p-10 group hover:bg-[#111] transition-colors">
+                  <div className="eyebrow text-[#cc0000] mb-6">{item.num}</div>
+                  <h3 className="font-black text-2xl text-white mb-4 group-hover:text-[#cc0000] transition-colors">{item.title}</h3>
+                  <p className="text-white/45 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Upcoming Events */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-10">
+      {/* ── FULL-BLEED IMAGE BREAK ───────────────────────────────────── */}
+      <section className="relative h-[60vh] overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?w=1600&q=85&auto=format&fit=crop"
+          alt="DOCLSE ride"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ filter: "brightness(0.6)" }}
+        />
+        <div className="absolute inset-0 hero-overlay-bottom" />
+        <div className="absolute bottom-10 left-6 sm:left-12 lg:left-20">
+          <p className="eyebrow text-white/40 mb-3">Route Intelligence · Beta</p>
+          <h3 className="display-md text-white mb-6 max-w-lg">Find your perfect ride in 5 questions.</h3>
+          <Link href="/route-intelligence" className="btn btn-primary">
+            Try Route Intelligence <ArrowUpRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* ── UPCOMING EVENTS ─────────────────────────────────────────── */}
+      <section className="bg-white py-28 px-6 sm:px-12 lg:px-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-end justify-between mb-16">
             <div>
-              <h2 className="text-3xl font-black text-gray-900">Upcoming Events</h2>
-              <p className="text-gray-500 mt-1">Don&apos;t miss what&apos;s on</p>
+              <ScrollReveal>
+                <p className="eyebrow text-[#cc0000] mb-4">What&apos;s On</p>
+              </ScrollReveal>
+              <ScrollReveal delay={100}>
+                <h2 className="display-md text-[#0a0a0a]">Upcoming Events</h2>
+              </ScrollReveal>
             </div>
-            <Link href="/events" className="hidden sm:flex items-center gap-1 text-[#cc0000] font-semibold text-sm hover:gap-2 transition-all">
-              View all <ChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {upcomingEvents.map((event) => (
-              <Link key={event.slug} href={`/events/${event.slug}`}
-                className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg hover:border-[#cc0000]/30 transition-all group">
-                <div className="bg-gradient-to-br from-gray-900 to-black h-40 flex items-center justify-center">
-                  <Calendar className="w-12 h-12 text-[#cc0000] group-hover:scale-110 transition-transform" />
-                </div>
-                <div className="p-5">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${CATEGORY_COLOURS[event.category] ?? "bg-gray-100 text-gray-700"}`}>
-                      {event.category}
-                    </span>
-                    <span className="text-xs text-gray-400">{formatDate(event.date)}</span>
-                  </div>
-                  <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#cc0000] transition-colors">
-                    {event.title}
-                  </h3>
-                  <div className="flex items-center gap-1 text-xs text-gray-500">
-                    <MapPin className="w-3 h-3" />
-                    <span className="truncate">{event.location}</span>
-                  </div>
-                </div>
+            <ScrollReveal>
+              <Link href="/events" className="hidden sm:flex items-center gap-2 text-sm font-bold text-[#cc0000] hover:gap-3 transition-all">
+                View all <ArrowRight className="w-4 h-4" />
               </Link>
-            ))}
+            </ScrollReveal>
           </div>
-          <div className="mt-6 sm:hidden text-center">
-            <Link href="/events" className="text-[#cc0000] font-semibold text-sm">
-              View all events →
-            </Link>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {upcomingEvents.map((event, i) => (
+              <ScrollReveal key={event.slug} delay={i * 100}>
+                <Link href={`/events/${event.slug}`} className="card-rivian group block">
+                  <div className="h-48 bg-gradient-to-br from-[#0a0a0a] to-[#1a0000] relative overflow-hidden flex items-center justify-center">
+                    <img
+                      src={`https://images.unsplash.com/photo-${["1558618666-fcd25c85cd64","1591637333184-19aa84b3e01f","1604357209793-fca5a5bd56f6"][i]}?w=600&q=70&auto=format&fit=crop`}
+                      alt={event.title}
+                      className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 hero-overlay-bottom" />
+                    <div className="absolute bottom-4 left-4">
+                      <span className="pill pill-red">{event.category}</span>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center gap-2 mb-3 text-xs text-gray-400">
+                      <Calendar className="w-3.5 h-3.5 text-[#cc0000]" />
+                      {formatDate(event.date)}
+                      <span className="mx-1 text-gray-200">·</span>
+                      <MapPin className="w-3.5 h-3.5 text-[#cc0000]" />
+                      <span className="truncate">{event.location}</span>
+                    </div>
+                    <h3 className="font-black text-[#0a0a0a] text-lg leading-tight group-hover:text-[#cc0000] transition-colors">
+                      {event.title}
+                    </h3>
+                  </div>
+                </Link>
+              </ScrollReveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Membership CTA */}
-      <section className="py-20 bg-black text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      {/* ── MEMBERSHIP CTA ─────────────────────────────────────────── */}
+      <section className="relative bg-[#0a0a0a] text-white py-32 px-6 sm:px-12 lg:px-20 overflow-hidden noise">
+        {/* Red glow */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: "radial-gradient(ellipse 60% 50% at 80% 50%, rgba(204,0,0,0.12) 0%, transparent 70%)" }} />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div>
-              <h2 className="text-4xl font-black mb-4">
-                Join <span className="text-[#cc0000]">DOCLSE</span> Today
-              </h2>
-              <p className="text-gray-300 leading-relaxed mb-6">
-                Free subscriber membership gets you access to all public events and the community.
-                Upgrade to Full Member for exclusive discounts, priority booking, La Passione magazine,
-                and the full Ducatista experience.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/register"
-                  className="inline-flex items-center gap-2 bg-[#cc0000] hover:bg-[#990000] text-white font-semibold px-6 py-3 rounded-md transition-colors">
-                  Join Free <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link href="/membership"
-                  className="inline-flex items-center gap-2 border border-white/30 hover:border-white text-white font-semibold px-6 py-3 rounded-md transition-colors">
-                  View Plans
-                </Link>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { icon: <Star className="w-5 h-5 text-[#cc0000]" />, text: "Priority event booking" },
-                { icon: <Users className="w-5 h-5 text-[#cc0000]" />, text: "Exclusive member community" },
-                { icon: <Calendar className="w-5 h-5 text-[#cc0000]" />, text: "Monthly rideouts" },
-                { icon: <Star className="w-5 h-5 text-[#cc0000]" />, text: "Partner discounts (15%+)" },
-              ].map((item) => (
-                <div key={item.text} className="flex items-start gap-3 bg-gray-900 rounded-lg p-4">
-                  {item.icon}
-                  <span className="text-sm text-gray-300">{item.text}</span>
+              <ScrollReveal>
+                <p className="eyebrow text-[#cc0000] mb-8">Membership</p>
+              </ScrollReveal>
+              <ScrollReveal delay={100}>
+                <h2 className="display-lg text-white mb-8">
+                  Join the<br />
+                  <span style={{ color: "#cc0000" }}>Ducatista</span><br />
+                  family.
+                </h2>
+              </ScrollReveal>
+              <ScrollReveal delay={200}>
+                <p className="text-white/50 text-lg leading-relaxed mb-10 font-light max-w-md">
+                  Free membership opens the door. Full membership unlocks exclusive discounts,
+                  priority bookings, La Passione magazine, and the complete Ducatista experience.
+                </p>
+              </ScrollReveal>
+              <ScrollReveal delay={300}>
+                <div className="flex flex-wrap gap-4">
+                  <Link href="/register" className="btn btn-primary">
+                    Join Free <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <Link href="/membership" className="btn btn-outline-white">
+                    Compare Plans
+                  </Link>
                 </div>
+              </ScrollReveal>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { title: "Priority Booking", desc: "First access to track days, WDW and exclusive events." },
+                { title: "Member Discounts", desc: "15%+ off at 15 partner brands and local businesses." },
+                { title: "Monthly Rideouts", desc: "Organised rides across all compass points, all year." },
+                { title: "La Passione", desc: "Exclusive club magazine — print and digital editions." },
+              ].map((item, i) => (
+                <ScrollReveal key={item.title} delay={i * 80}>
+                  <div className="border border-white/[0.07] rounded-2xl p-6 hover:border-[#cc0000]/30 hover:bg-white/[0.03] transition-all">
+                    <div className="w-8 h-0.5 bg-[#cc0000] mb-4 rounded" />
+                    <h4 className="font-bold text-white text-sm mb-2">{item.title}</h4>
+                    <p className="text-white/40 text-xs leading-relaxed">{item.desc}</p>
+                  </div>
+                </ScrollReveal>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Latest Ride Reports */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-10">
+      {/* ── LATEST RIDE REPORTS ──────────────────────────────────────── */}
+      <section className="bg-[#f5f5f5] py-28 px-6 sm:px-12 lg:px-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-end justify-between mb-16">
             <div>
-              <h2 className="text-3xl font-black text-gray-900">Latest Ride Reports</h2>
-              <p className="text-gray-500 mt-1">Stories from the road</p>
+              <ScrollReveal>
+                <p className="eyebrow text-[#cc0000] mb-4">From the Road</p>
+              </ScrollReveal>
+              <ScrollReveal delay={100}>
+                <h2 className="display-md text-[#0a0a0a]">Ride Reports</h2>
+              </ScrollReveal>
             </div>
-            <Link href="/news" className="hidden sm:flex items-center gap-1 text-[#cc0000] font-semibold text-sm hover:gap-2 transition-all">
-              All reports <ChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {latestReports.map((report) => (
-              <Link key={report.slug} href={`/news/${report.slug}`}
-                className="group border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg hover:border-[#cc0000]/30 transition-all">
-                <div className="h-48 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                  <span className="text-4xl">🏍️</span>
-                </div>
-                <div className="p-5">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-semibold bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full">
-                      {report.category}
-                    </span>
-                    <span className="text-xs text-gray-400">{formatDate(report.date)}</span>
-                  </div>
-                  <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#cc0000] transition-colors">
-                    {report.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 line-clamp-2">{report.excerpt}</p>
-                  <p className="text-xs text-gray-400 mt-2">By {report.author}</p>
-                </div>
+            <ScrollReveal>
+              <Link href="/news" className="hidden sm:flex items-center gap-2 text-sm font-bold text-[#cc0000] hover:gap-3 transition-all">
+                All reports <ArrowRight className="w-4 h-4" />
               </Link>
+            </ScrollReveal>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {latestReports.map((report, i) => (
+              <ScrollReveal key={report.slug} delay={i * 100}>
+                <Link href={`/news/${report.slug}`} className="card-rivian group block bg-white">
+                  <div className="h-52 bg-gradient-to-br from-[#111] to-[#1a0000] relative overflow-hidden">
+                    <img
+                      src={`https://images.unsplash.com/photo-${["1449426468159-d96dbf08f19f","1558618047-3c2b2b8c8e3e","1536440136628-849c177e76a1"][i]}?w=600&q=70&auto=format&fit=crop`}
+                      alt={report.title}
+                      className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <span className="pill pill-dark bg-white/90 text-[#0a0a0a] border-0 text-[0.65rem]">{report.category}</span>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <p className="text-xs text-gray-400 mb-2">{formatDate(report.date)} · {report.author}</p>
+                    <h3 className="font-black text-[#0a0a0a] text-base leading-tight mb-2 group-hover:text-[#cc0000] transition-colors">
+                      {report.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">{report.excerpt}</p>
+                  </div>
+                </Link>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Location */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <MapPin className="w-8 h-8 text-[#cc0000] mx-auto mb-3" />
-          <h2 className="text-2xl font-black text-gray-900 mb-2">Find Us</h2>
-          <p className="text-gray-500 mb-1">Arch 70, Albert Embankment, London, SE1 7TP</p>
-          <p className="text-gray-500 mb-6">Linked to <strong>Ducati London</strong> dealership</p>
+      {/* ── LOCATION STRIP ───────────────────────────────────────────── */}
+      <section className="bg-[#0a0a0a] text-white py-20 px-6 sm:px-12 lg:px-20">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+          <div>
+            <p className="eyebrow text-[#cc0000] mb-3">Find Us</p>
+            <h3 className="font-black text-2xl text-white mb-1">Arch 70, Albert Embankment</h3>
+            <p className="text-white/40 text-sm">London SE1 7TP · Linked to Ducati London dealership</p>
+          </div>
           <a
             href="https://maps.app.goo.gl/RYFV9c3YYr7h2Hyx9"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#cc0000] hover:bg-[#990000] text-white font-semibold px-6 py-3 rounded-md transition-colors"
+            className="btn btn-outline-white shrink-0"
           >
-            View on Map <ArrowRight className="w-4 h-4" />
+            View on Map <ArrowUpRight className="w-4 h-4" />
           </a>
         </div>
       </section>
+
     </div>
   );
 }

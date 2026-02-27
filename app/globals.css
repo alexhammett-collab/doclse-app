@@ -1,14 +1,18 @@
 @import "tailwindcss";
 
+/* ─── Brand tokens ─────────────────────────────────────────────────── */
 :root {
   --background: #ffffff;
-  --foreground: #111111;
+  --foreground: #0a0a0a;
   --ducati-red: #cc0000;
   --ducati-red-dark: #990000;
-  --ducati-red-light: #ff1a1a;
-  --card: #f8f8f8;
-  --card-border: #e5e5e5;
+  --ducati-red-light: #ff2222;
+  --surface-dark: #0a0a0a;
+  --surface-mid: #141414;
+  --surface-card: #1a1a1a;
+  --border-subtle: rgba(255,255,255,0.08);
   --muted: #6b7280;
+  --nav-height: 72px;
 }
 
 @theme inline {
@@ -16,35 +20,238 @@
   --color-foreground: var(--foreground);
   --color-ducati-red: var(--ducati-red);
   --color-ducati-red-dark: var(--ducati-red-dark);
-  --color-card: var(--card);
-  --color-card-border: var(--card-border);
   --color-muted: var(--muted);
 }
 
-.dark {
-  --background: #0d0d0d;
-  --foreground: #f0f0f0;
-  --card: #1a1a1a;
-  --card-border: #2a2a2a;
-  --muted: #9ca3af;
+/* ─── Base ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-* {
-  box-sizing: border-box;
+/* ─── Noise texture overlay (Rivian-style grain on dark sections) ─── */
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.35;
+  z-index: 1;
 }
 
-.ducati-red { color: var(--ducati-red); }
-.bg-ducati-red { background-color: var(--ducati-red); }
-
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(10px); }
+/* ─── Scroll-reveal animations ──────────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(40px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.animate-fade-in { animation: fade-in 0.4s ease-out; }
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes slide-right {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-up   { animation: fade-up   0.7s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-fade-in   { animation: fade-in   0.5s ease both; }
+.animate-scale-in  { animation: scale-in  0.6s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-slide-right { animation: slide-right 0.7s cubic-bezier(0.16,1,0.3,1) both; }
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+
+/* ─── Scroll-triggered reveal (JS adds .revealed) ─────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-scale.revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ─── Typography ────────────────────────────────────────────────────── */
+.display-xl {
+  font-size: clamp(3.5rem, 8vw, 9rem);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+}
+.display-lg {
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+}
+.display-md {
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ─── Pill label ────────────────────────────────────────────────────── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: 99px;
+}
+.pill-red   { background: rgba(204,0,0,0.15); color: #ff5555; border: 1px solid rgba(204,0,0,0.3); }
+.pill-white { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.15); }
+.pill-dark  { background: rgba(0,0,0,0.08); color: #444; border: 1px solid rgba(0,0,0,0.1); }
+
+/* ─── Buttons ───────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  padding: 0.85rem 2rem;
+  border-radius: 99px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: #cc0000;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #aa0000;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(204,0,0,0.35);
+}
+.btn-outline-white {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.4);
+}
+.btn-outline-white:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.8);
+}
+.btn-outline-dark {
+  background: transparent;
+  color: #0a0a0a;
+  border: 1.5px solid rgba(0,0,0,0.25);
+}
+.btn-outline-dark:hover {
+  background: #0a0a0a;
+  color: #fff;
+}
+
+/* ─── Cards ─────────────────────────────────────────────────────────── */
+.card-rivian {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.07);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1), border-color 0.2s;
+}
+.card-rivian:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.1);
+  border-color: rgba(204,0,0,0.2);
+}
+.card-dark {
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), border-color 0.2s;
+}
+.card-dark:hover {
+  transform: translateY(-3px);
+  border-color: rgba(204,0,0,0.3);
+}
+
+/* ─── Red accent line (Rivian uses left border accents) ─────────────── */
+.accent-line {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.accent-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--ducati-red);
+  border-radius: 2px;
+}
+
+/* ─── Full-bleed image overlay ──────────────────────────────────────── */
+.hero-overlay {
+  background: linear-gradient(
+    to right,
+    rgba(0,0,0,0.85) 0%,
+    rgba(0,0,0,0.5) 50%,
+    rgba(0,0,0,0.15) 100%
+  );
+}
+.hero-overlay-bottom {
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.95) 0%,
+    rgba(0,0,0,0.4) 60%,
+    transparent 100%
+  );
+}
+
+/* ─── Horizontal divider ────────────────────────────────────────────── */
+.divider { border: none; border-top: 1px solid rgba(0,0,0,0.08); }
+.divider-white { border: none; border-top: 1px solid rgba(255,255,255,0.08); }
+
+/* ─── Utility ───────────────────────────────────────────────────────── */
+.ducati-red { color: var(--ducati-red); }
+.bg-ducati-red { background-color: var(--ducati-red); }
+.text-balance { text-wrap: balance; }
