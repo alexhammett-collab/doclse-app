@@ -1,134 +1,82 @@
 import Link from "next/link";
-import { ArrowRight, Calendar, MapPin, ArrowUpRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Calendar, MapPin, Repeat2 } from "lucide-react";
 import { EVENTS, RIDE_REPORTS } from "@/lib/data";
 import { formatDate } from "@/lib/utils";
 import ScrollReveal from "@/components/ScrollReveal";
 
-/* Category gradient fallbacks — pure CSS, no broken external images */
-const CAT_GRAD: Record<string, string> = {
-  Rideout:  "linear-gradient(135deg,#0f0c29,#302b63,#24243e)",
-  Training: "linear-gradient(135deg,#0a0a0a,#1a1a0a)",
-  Social:   "linear-gradient(135deg,#0a0a0a,#1a000a)",
-  Special:  "linear-gradient(135deg,#200000,#0a0a0a)",
-};
+const PANIGALE_V4R = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Ducati_Panigale_V4_R_%282019%29.jpg/1920px-Ducati_Panigale_V4_R_%282019%29.jpg";
 
 export default function HomePage() {
   const upcomingEvents = EVENTS.slice(0, 3);
   const latestReports  = RIDE_REPORTS.slice(0, 3);
 
   return (
-    <div>
+    <div className="bg-white">
 
-      {/* ══════════════════════════════════════════════════════════════
-          HERO — full viewport, Panigale V4R, cinematic
-      ══════════════════════════════════════════════════════════════ */}
-      <section
-        className="relative w-full overflow-hidden bg-[#0a0a0a]"
-        style={{ minHeight: "100svh" }}
-      >
-        {/* Cinematic gradient base — always visible even if img fails */}
+      {/* ── HERO ─────────────────────────────────────────────────── */}
+      <section className="relative w-full bg-black overflow-hidden" style={{ height: "100svh", minHeight: 640 }}>
+        {/* Panigale V4R — Wikimedia Commons, no hotlink restrictions */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={PANIGALE_V4R}
+          alt="Ducati Panigale V4R"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          style={{ filter: "brightness(0.48) contrast(1.08)" }}
+        />
+        {/* Left-to-right dark vignette — keeps text readable */}
         <div className="absolute inset-0" style={{
-          background: "linear-gradient(160deg, #1a0000 0%, #0a0a0a 40%, #000 100%)"
+          background: "linear-gradient(100deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.1) 100%)"
+        }} />
+        {/* Bottom fade into next dark section */}
+        <div className="absolute bottom-0 left-0 right-0 h-40" style={{
+          background: "linear-gradient(to top, #0a0a0a, transparent)"
         }} />
 
-        {/* No external image — pure CSS hero to avoid broken image issues */}
-
-        {/* Decorative Ducati-red geometry */}
-        <div className="absolute top-0 right-0 w-[45vw] h-full overflow-hidden pointer-events-none">
-          <div className="absolute inset-0" style={{
-            background: "linear-gradient(to left, rgba(204,0,0,0.18) 0%, transparent 70%)"
-          }} />
-          <div className="absolute top-0 right-0 bottom-0 w-1 bg-[#cc0000]" />
-        </div>
-
-        {/* Large ambient red circle */}
-        <div className="absolute pointer-events-none" style={{
-          right: "8vw", top: "50%", transform: "translateY(-50%)",
-          width: "min(600px, 55vw)", height: "min(600px, 55vw)",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(204,0,0,0.22) 0%, rgba(204,0,0,0.06) 50%, transparent 70%)",
-        }} />
-
-        {/* Stylised "V4R" large text watermark */}
-        <div className="absolute right-[6vw] top-1/2 -translate-y-1/2 select-none pointer-events-none hidden lg:block" style={{
-          fontSize: "clamp(10rem, 22vw, 22rem)",
-          fontWeight: 900,
-          lineHeight: 1,
-          letterSpacing: "-0.05em",
-          color: "transparent",
-          WebkitTextStroke: "1px rgba(204,0,0,0.12)",
-        }}>
-          V4R
-        </div>
-
-        {/* Bottom gradient fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none" style={{
-          background: "linear-gradient(to top, #0a0a0a 0%, transparent 100%)"
-        }} />
-
-        {/* Content anchored bottom-left */}
-        <div
-          className="relative z-10 flex flex-col justify-end pb-20 pt-40"
-          style={{ minHeight: "100svh" }}
-        >
-          <div className="max-w-7xl mx-auto w-full px-6 sm:px-8 lg:px-12">
-            <div className="pill pill-red mb-8 animate-fade-up">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#cc0000] animate-pulse inline-block" />
-              Official Ducati Club · London &amp; South East · Est. 2024
-            </div>
-
-            <h1
-              className="text-white animate-fade-up delay-100 mb-6"
-              style={{
-                fontWeight: 900,
-                fontSize: "clamp(3.2rem, 9vw, 9.5rem)",
-                lineHeight: 0.88,
-                letterSpacing: "-0.04em",
-              }}
-            >
-              DUCATI<br />
-              <span style={{ color: "#cc0000" }}>LONDON</span><br />
-              <span style={{ fontWeight: 300, fontSize: "0.45em", letterSpacing: "-0.01em", color: "rgba(255,255,255,0.5)" }}>
-                &amp; South East
-              </span>
-            </h1>
-
-            <p className="text-white/55 animate-fade-up delay-200 mb-10 font-light leading-relaxed"
-              style={{ fontSize: "clamp(1rem, 1.4vw, 1.2rem)", maxWidth: 480 }}>
-              Built for riders, passengers, dreamers and devotees.
-              Monthly rideouts, track days, and pure Ducati passion.
-            </p>
-
-            <div className="flex flex-wrap gap-4 animate-fade-up delay-300">
-              <Link href="/membership" className="btn btn-primary">
-                Join the Club <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link href="/rides" className="btn btn-outline-white">
-                Explore Rides
-              </Link>
-            </div>
-
-            {/* Panigale model badge */}
-            <div className="mt-16 flex items-center gap-4 animate-fade-up delay-500">
-              <div className="w-px h-8 bg-[#cc0000]" />
-              <span className="text-white/30 text-[0.7rem] font-bold tracking-[0.25em] uppercase">
-                Panigale V4R · Streetfighter · Monster · Multistrada
-              </span>
+        {/* Content — vertically centred */}
+        <div className="absolute inset-0 flex items-center">
+          <div className="max-w-7xl mx-auto w-full px-8 sm:px-12 lg:px-20">
+            <div className="max-w-xl">
+              <p className="pill pill-red mb-8 animate-fade-up">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#cc0000] animate-pulse inline-block" />
+                Official Club · London &amp; South East · Est. 2024
+              </p>
+              <h1
+                className="text-white animate-fade-up delay-100"
+                style={{ fontWeight: 900, fontSize: "clamp(4rem, 9vw, 8rem)", lineHeight: 0.88, letterSpacing: "-0.04em" }}
+              >
+                DOC<span style={{ color: "#cc0000" }}>LSE</span>
+              </h1>
+              <p
+                className="text-white/60 animate-fade-up delay-200 mt-7 mb-10 font-light leading-relaxed"
+                style={{ fontSize: "clamp(1rem, 1.4vw, 1.15rem)", maxWidth: 400 }}
+              >
+                Built for riders, passengers, dreamers and devotees.
+                Monthly rideouts, track days, and pure Ducati passion.
+              </p>
+              <div className="flex flex-wrap gap-4 animate-fade-up delay-300">
+                <Link href="/membership" className="btn btn-primary">Join the Club <ArrowRight className="w-4 h-4" /></Link>
+                <Link href="/rides" className="btn btn-outline-white">Explore Rides</Link>
+              </div>
+              <div className="mt-14 flex items-center gap-4 animate-fade-up delay-500">
+                <div className="w-px h-7 bg-[#cc0000]" />
+                <span className="text-white/25 text-[0.65rem] font-bold tracking-[0.25em] uppercase">
+                  Panigale V4R · Streetfighter · Monster · Multistrada
+                </span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Scroll cue */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-up delay-600">
-          <ChevronDown className="w-5 h-5 text-white/25 animate-bounce" />
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 right-10 hidden md:flex flex-col items-center gap-2">
+          <span className="text-white/20 text-[0.6rem] font-bold tracking-[0.25em] uppercase" style={{ writingMode: "vertical-rl" }}>Scroll</span>
+          <div className="w-px h-10 bg-gradient-to-b from-white/20 to-transparent" />
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
-          STATS BAR — red, bold
-      ══════════════════════════════════════════════════════════════ */}
+      {/* ── STATS ─────────────────────────────────────────────── */}
       <section className="bg-[#cc0000] text-white">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-20">
           <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-white/20">
             {[
               { value: "150+",    label: "Members" },
@@ -145,15 +93,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
-          MANIFESTO — dark editorial
-      ══════════════════════════════════════════════════════════════ */}
-      <section className="bg-[#0a0a0a] text-white py-28 relative overflow-hidden">
-        {/* Subtle red diagonal stripe */}
-        <div className="absolute top-0 right-0 w-px h-full bg-[#cc0000] opacity-20 pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+      {/* ── MANIFESTO ─────────────────────────────────────────── */}
+      <section className="bg-[#0a0a0a] text-white py-32">
+        <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-start">
             <div>
               <ScrollReveal>
                 <p className="eyebrow text-[#cc0000] mb-8">Our Purpose</p>
@@ -179,7 +122,7 @@ export default function HomePage() {
               </ScrollReveal>
             </div>
 
-            <div className="grid grid-cols-1 gap-px bg-white/[0.05] mt-4 lg:mt-0">
+            <div className="grid grid-cols-1 gap-px bg-white/[0.05] lg:mt-2">
               {[
                 { num: "01", title: "We Ride Together", desc: "Monthly rideouts across all compass points. Surrey Hills, North Downs, Kent coast — every route a memory." },
                 { num: "02", title: "We Give Back",     desc: "Charity rides and community events. Passion with purpose — giving back to causes that matter." },
@@ -198,27 +141,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
-          ROUTE INTELLIGENCE PROMO — dark cinematic panel
-      ══════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden" style={{ background: "#0d0005", minHeight: 480 }}>
-        {/* Animated red gradient */}
+      {/* ── ROUTE INTELLIGENCE ────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-[#080808]" style={{ minHeight: 500 }}>
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: "radial-gradient(ellipse 80% 60% at 30% 50%, rgba(204,0,0,0.2) 0%, transparent 70%)"
+          background: "radial-gradient(ellipse 60% 90% at 15% 50%, rgba(204,0,0,0.18) 0%, transparent 65%)"
         }} />
-        <div className="absolute right-0 top-0 bottom-0 w-1/2 pointer-events-none" style={{
-          background: "linear-gradient(to left, rgba(0,0,0,0.8) 0%, transparent 100%)"
-        }} />
-        {/* Geometric lines */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {[20, 40, 60, 80].map(p => (
-            <div key={p} className="absolute top-0 bottom-0 opacity-[0.04]"
-              style={{ left: `${p}%`, width: 1, background: "#fff" }} />
-          ))}
-        </div>
-
-        <div className="relative z-10 flex items-center min-h-[480px]">
-          <div className="max-w-7xl mx-auto w-full px-6 sm:px-8 lg:px-12 py-20">
+        <div className="relative z-10 flex items-center" style={{ minHeight: 500 }}>
+          <div className="max-w-7xl mx-auto w-full px-8 sm:px-12 lg:px-20 py-24">
             <ScrollReveal>
               <div className="flex items-center gap-3 mb-6">
                 <span className="eyebrow text-[#cc0000]">New Feature</span>
@@ -249,11 +178,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
-          UPCOMING EVENTS
-      ══════════════════════════════════════════════════════════════ */}
-      <section className="bg-white py-28">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+      {/* ── EVENTS ────────────────────────────────────────────── */}
+      <section className="bg-white py-32">
+        <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-20">
           <div className="flex items-end justify-between mb-14">
             <div>
               <ScrollReveal>
@@ -270,38 +197,29 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {upcomingEvents.map((event, i) => (
               <ScrollReveal key={event.slug} delay={i * 80}>
                 <Link
                   href={`/events/${event.slug}`}
                   className="group block rounded-2xl overflow-hidden border border-gray-100 hover:border-[#cc0000]/20 hover:shadow-xl transition-all duration-300"
                 >
-                  {/* Card image / gradient */}
-                  <div
-                    className="h-44 relative overflow-hidden"
-                    style={{ background: CAT_GRAD[event.category] ?? "linear-gradient(135deg,#0a0a0a,#1a000a)" }}
-                  >
-                    {/* Pattern overlay */}
-                    <div className="absolute inset-0 opacity-20" style={{
-                      backgroundImage: "repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 10px)"
+                  <div className="h-48 bg-[#0a0a0a] relative overflow-hidden flex items-end p-5">
+                    <div className="absolute inset-0" style={{
+                      backgroundImage: "repeating-linear-gradient(45deg,rgba(255,255,255,0.025) 0,rgba(255,255,255,0.025) 1px,transparent 1px,transparent 14px)"
                     }} />
-                    <div className="absolute inset-0 flex items-end p-5">
-                      <span className="pill pill-red">{event.category}</span>
-                    </div>
-                    {/* Red bottom strip */}
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#cc0000] opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#cc0000] opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <span className="pill pill-red relative z-10">{event.category}</span>
                   </div>
-
-                  <div className="p-5 bg-white">
-                    <div className="flex items-center gap-3 mb-3 text-xs text-gray-400">
+                  <div className="p-6 bg-white">
+                    <div className="flex items-center gap-2 mb-3 text-xs text-gray-400">
                       <Calendar className="w-3.5 h-3.5 text-[#cc0000] shrink-0" />
-                      <span>{formatDate(event.date)}</span>
-                      <span className="text-gray-200">·</span>
+                      {formatDate(event.date)}
+                      <span className="text-gray-200 mx-1">·</span>
                       <MapPin className="w-3.5 h-3.5 text-[#cc0000] shrink-0" />
                       <span className="truncate">{event.location}</span>
                     </div>
-                    <h3 className="font-black text-[#0a0a0a] text-base leading-snug group-hover:text-[#cc0000] transition-colors">
+                    <h3 className="font-black text-[#0a0a0a] text-lg leading-snug group-hover:text-[#cc0000] transition-colors">
                       {event.title}
                     </h3>
                   </div>
@@ -312,20 +230,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
-          MEMBERSHIP CTA — split dark/red
-      ══════════════════════════════════════════════════════════════ */}
-      <section className="bg-[#0a0a0a] text-white relative overflow-hidden">
-        {/* Ambient glow */}
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: "radial-gradient(ellipse 70% 60% at 75% 50%, rgba(204,0,0,0.10) 0%, transparent 70%)"
-        }} />
-
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-28 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20 items-center">
-
-            {/* Left copy — 3 cols */}
-            <div className="lg:col-span-3">
+      {/* ── MEMBERSHIP ────────────────────────────────────────── */}
+      <section className="bg-[#0a0a0a] text-white">
+        <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-20 py-32">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div>
               <ScrollReveal>
                 <p className="eyebrow text-[#cc0000] mb-8">Membership</p>
               </ScrollReveal>
@@ -355,8 +264,7 @@ export default function HomePage() {
               </ScrollReveal>
             </div>
 
-            {/* Right feature cards — 2 cols */}
-            <div className="lg:col-span-2 grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 gap-3">
               {[
                 { title: "Priority Booking",   desc: "First access to track days, WDW and exclusive events." },
                 { title: "Member Discounts",   desc: "15%+ off at 15 partner brands and local businesses." },
@@ -379,11 +287,44 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
-          RIDE REPORTS
-      ══════════════════════════════════════════════════════════════ */}
-      <section className="bg-[#f3f3f3] py-28">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+      {/* ── NEW FEATURES STRIP ────────────────────────────────── */}
+      <section className="bg-[#080808] border-t border-white/[0.05] py-20">
+        <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-20">
+          <p className="eyebrow text-white/20 mb-10">New for 2025</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <ScrollReveal>
+              <Link href="/pulse" className="group block p-8 rounded-2xl border border-white/[0.06] hover:border-[#cc0000]/30 hover:bg-[#cc0000]/[0.04] transition-all">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-8 rounded-full border border-[#cc0000]/40 flex items-center justify-center shrink-0">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#cc0000] animate-pulse" />
+                  </div>
+                  <span className="font-black text-white text-xl">Pulse</span>
+                  <span className="pill pill-red text-[0.6rem] ml-auto">Live</span>
+                </div>
+                <p className="text-white/35 text-sm leading-relaxed mb-5">See Ducati riders active across the globe in real time. The worldwide heartbeat of our community.</p>
+                <span className="text-[#cc0000] text-xs font-bold flex items-center gap-1.5 group-hover:gap-3 transition-all">View global map <ArrowRight className="w-3.5 h-3.5" /></span>
+              </Link>
+            </ScrollReveal>
+            <ScrollReveal delay={80}>
+              <Link href="/rideswap" className="group block p-8 rounded-2xl border border-white/[0.06] hover:border-[#cc0000]/30 hover:bg-[#cc0000]/[0.04] transition-all">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-8 rounded-full border border-[#cc0000]/40 flex items-center justify-center shrink-0">
+                    <Repeat2 className="w-4 h-4 text-[#cc0000]" />
+                  </div>
+                  <span className="font-black text-white text-xl">RideSwap</span>
+                  <span className="pill pill-red text-[0.6rem] ml-auto">New</span>
+                </div>
+                <p className="text-white/35 text-sm leading-relaxed mb-5">Swap your Ducati with a fellow member for a day or a rideout. Protected by SwapShield insurance.</p>
+                <span className="text-[#cc0000] text-xs font-bold flex items-center gap-1.5 group-hover:gap-3 transition-all">Browse swaps <ArrowRight className="w-3.5 h-3.5" /></span>
+              </Link>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── RIDE REPORTS ──────────────────────────────────────── */}
+      <section className="bg-[#f4f4f4] py-32">
+        <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-20">
           <div className="flex items-end justify-between mb-14">
             <div>
               <ScrollReveal>
@@ -400,17 +341,16 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {latestReports.map((report, i) => (
               <ScrollReveal key={report.slug} delay={i * 80}>
                 <Link
                   href={`/news/${report.slug}`}
                   className="group block bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-[#cc0000]/20 hover:shadow-xl transition-all duration-300"
                 >
-                  {/* Gradient thumbnail — no broken images */}
                   <div
-                    className="h-48 relative overflow-hidden"
-                    style={{ background: `linear-gradient(135deg, hsl(${i * 30},60%,8%) 0%, hsl(${i * 30 + 10},40%,14%) 100%)` }}
+                    className="h-52 relative overflow-hidden"
+                    style={{ background: `linear-gradient(135deg, hsl(${350 + i * 15},70%,6%) 0%, hsl(${355 + i * 10},50%,12%) 100%)` }}
                   >
                     <div className="absolute inset-0 opacity-30" style={{
                       backgroundImage: "repeating-linear-gradient(-45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 12px)"
@@ -441,11 +381,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
-          LOCATION STRIP
-      ══════════════════════════════════════════════════════════════ */}
+      {/* ── LOCATION ──────────────────────────────────────────── */}
       <section className="bg-[#0a0a0a] text-white py-20 border-t border-white/[0.05]">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+        <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
           <div>
             <p className="eyebrow text-[#cc0000] mb-3">Find Us</p>
             <h3 className="font-black text-2xl text-white mb-1 tracking-tight">Arch 70, Albert Embankment</h3>
