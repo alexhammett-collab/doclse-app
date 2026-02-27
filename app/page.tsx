@@ -4,7 +4,7 @@ import { EVENTS, RIDE_REPORTS } from "@/lib/data";
 import { formatDate } from "@/lib/utils";
 import ScrollReveal from "@/components/ScrollReveal";
 
-const PANIGALE_V4R = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Ducati_Panigale_V4_R_%282019%29.jpg/1920px-Ducati_Panigale_V4_R_%282019%29.jpg";
+const PANIGALE_V4R = "/panigale-v4r.jpg";
 
 export default function HomePage() {
   const upcomingEvents = EVENTS.slice(0, 3);
