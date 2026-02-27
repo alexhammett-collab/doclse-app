@@ -2,8 +2,8 @@
 
 /* ─── Brand tokens ─────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
+  --background: #000000;
+  --foreground: #ffffff;
   --ducati-red: #cc0000;
   --ducati-red-dark: #990000;
   --ducati-red-light: #ff2222;
@@ -24,7 +24,7 @@
 }
 
 /* ─── Base ──────────────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
@@ -32,8 +32,8 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #000;
+  color: #fff;
   font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -133,16 +133,16 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.72rem;
+  font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  padding: 0.35rem 0.85rem;
-  border-radius: 99px;
+  padding: 0.3rem 0.75rem;
+  border-radius: 0;
 }
-.pill-red   { background: rgba(204,0,0,0.15); color: #ff5555; border: 1px solid rgba(204,0,0,0.3); }
-.pill-white { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.15); }
-.pill-dark  { background: rgba(0,0,0,0.08); color: #444; border: 1px solid rgba(0,0,0,0.1); }
+.pill-red   { background: rgba(204,0,0,0.15); color: #ff5555; }
+.pill-white { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+.pill-dark  { background: rgba(0,0,0,0.08); color: #444; }
 
 /* ─── Buttons ───────────────────────────────────────────────────────── */
 .btn {
@@ -153,8 +153,7 @@ body {
   font-size: 0.875rem;
   letter-spacing: 0.04em;
   padding: 0.85rem 2rem;
-  border-radius: 99px;
-  border: none;
+  border-radius: 0;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
   text-decoration: none;
@@ -171,12 +170,13 @@ body {
 }
 .btn-outline-white {
   background: transparent;
-  color: #fff;
-  border: 1.5px solid rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.15);
 }
 .btn-outline-white:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.8);
+  color: #fff;
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.4);
 }
 .btn-outline-dark {
   background: transparent;
@@ -190,27 +190,20 @@ body {
 
 /* ─── Cards ─────────────────────────────────────────────────────────── */
 .card-rivian {
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.07);
-  border-radius: 16px;
+  background: #0e0e0e;
   overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1), border-color 0.2s;
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
 }
 .card-rivian:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 24px 48px rgba(0,0,0,0.1);
-  border-color: rgba(204,0,0,0.2);
+  transform: translateY(-3px);
 }
 .card-dark {
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
+  background: #0e0e0e;
   overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), border-color 0.2s;
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
 }
 .card-dark:hover {
-  transform: translateY(-3px);
-  border-color: rgba(204,0,0,0.3);
+  transform: translateY(-2px);
 }
 
 /* ─── Red accent line (Rivian uses left border accents) ─────────────── */
@@ -248,8 +241,8 @@ body {
 }
 
 /* ─── Horizontal divider ────────────────────────────────────────────── */
-.divider { border: none; border-top: 1px solid rgba(0,0,0,0.08); }
-.divider-white { border: none; border-top: 1px solid rgba(255,255,255,0.08); }
+.divider { border: none; border-top: 1px solid rgba(255,255,255,0.05); }
+.divider-white { border: none; border-top: 1px solid rgba(255,255,255,0.05); }
 
 /* ─── Utility ───────────────────────────────────────────────────────── */
 .ducati-red { color: var(--ducati-red); }
