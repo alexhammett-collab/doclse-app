@@ -18,6 +18,13 @@ const NAV_ITEMS = [
   },
   { label: "Events", href: "/events" },
   {
+    label: "Rides",
+    children: [
+      { label: "Ride Outs & Route Planner", href: "/rides" },
+      { label: "Route Intelligence", href: "/route-intelligence" },
+    ],
+  },
+  {
     label: "Membership",
     children: [
       { label: "Membership Overview", href: "/membership" },
