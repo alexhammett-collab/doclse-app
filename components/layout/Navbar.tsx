@@ -34,7 +34,7 @@ const NAV_ITEMS = [
       { label: "La Passione Magazine", href: "/la-passione" },
     ],
   },
-  { label: "Ask a Ducati", href: "/ask-ducati" },
+  { label: "Ducati AI", href: "/ask-ducati" },
   { label: "Pulse", href: "/pulse", live: true },
   { label: "Shop", href: "/shop" },
   { label: "News", href: "/news" },

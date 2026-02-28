@@ -66,11 +66,18 @@ export default function AskDucatiClient() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messages.length > 0) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
   };
 
+  // Only scroll when a new message is added, not on initial mount
+  const prevCountRef = useRef(0);
   useEffect(() => {
-    scrollToBottom();
+    if (messages.length > prevCountRef.current) {
+      scrollToBottom();
+    }
+    prevCountRef.current = messages.length;
   }, [messages]);
 
   async function handleSend(query?: string) {
@@ -190,8 +197,11 @@ export default function AskDucatiClient() {
                   letterSpacing: "-0.03em",
                 }}
               >
-                ASK A DUCATI
+                DUCATI AI
               </h1>
+              <p className="text-[0.6rem] font-bold text-white/20 uppercase tracking-[0.25em] mt-1">
+                Technical Assistant
+              </p>
             </div>
           </div>
           <p className="text-white/40 text-sm font-light max-w-md leading-relaxed">
