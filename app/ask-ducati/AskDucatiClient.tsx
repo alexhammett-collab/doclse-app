@@ -18,17 +18,24 @@ import { useAuth } from "@/lib/auth-context";
 import {
   generateMockAIResponse,
   SUGGESTED_QUESTIONS,
-  type KBEntry,
 } from "@/lib/ducati-kb";
 
 /* ─── Types ───────────────────────────────────────────────────────── */
+interface Source {
+  type: "kb" | "web";
+  title: string;
+  category?: string;
+  url?: string;
+  id?: string;
+}
+
 interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
-  sources?: KBEntry[];
-  confidence?: number;
+  sources?: Source[];
+  responseTime?: number;
 }
 
 /* ─── Category icon helper ────────────────────────────────────────── */
@@ -77,31 +84,67 @@ export default function AskDucatiClient() {
       timestamp: new Date(),
     };
 
-    setMessages((prev) => [...prev, userMsg]);
+    const updatedMessages = [...messages, userMsg];
+    setMessages(updatedMessages);
     setInput("");
     setIsLoading(true);
 
-    // Simulate network delay
-    await new Promise((r) => setTimeout(r, 800 + Math.random() * 1200));
+    try {
+      // Build conversation history for context
+      const history = updatedMessages
+        .filter((m) => m.role === "user" || m.role === "assistant")
+        .map((m) => ({ role: m.role, content: m.content }));
 
-    // Demo user bike context
-    const userBike = user
-      ? { model: "Monster 937", year: 2023 }
-      : undefined;
+      const res = await fetch("/api/ai/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: q,
+          userBike: user ? "2023 Monster 937 SP" : undefined,
+          history: history.slice(0, -1), // exclude current query (sent separately)
+        }),
+      });
 
-    const result = generateMockAIResponse(q, userBike);
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `HTTP ${res.status}`);
+      }
 
-    const assistantMsg: Message = {
-      id: `a-${Date.now()}`,
-      role: "assistant",
-      content: result.response,
-      timestamp: new Date(),
-      sources: result.sources,
-      confidence: result.confidence,
-    };
+      const data = await res.json();
 
-    setMessages((prev) => [...prev, assistantMsg]);
-    setIsLoading(false);
+      const assistantMsg: Message = {
+        id: `a-${Date.now()}`,
+        role: "assistant",
+        content: data.response,
+        timestamp: new Date(),
+        sources: data.sources,
+        responseTime: data.responseTime,
+      };
+
+      setMessages((prev) => [...prev, assistantMsg]);
+    } catch (error: any) {
+      // Fallback to local mock if API unavailable
+      const mockResult = generateMockAIResponse(q, user ? { model: "Monster 937", year: 2023 } : undefined);
+
+      const assistantMsg: Message = {
+        id: `a-${Date.now()}`,
+        role: "assistant",
+        content: error.message?.includes("not configured")
+          ? `**Note:** AI service is not yet configured. Showing results from local knowledge base only.\n\n${mockResult.response}`
+          : mockResult.response,
+        timestamp: new Date(),
+        sources: mockResult.sources.map((s) => ({
+          type: "kb" as const,
+          title: s.title,
+          category: s.category,
+          id: s.id,
+        })),
+      };
+
+      setMessages((prev) => [...prev, assistantMsg]);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -152,24 +195,28 @@ export default function AskDucatiClient() {
             </div>
           </div>
           <p className="text-white/40 text-sm font-light max-w-md leading-relaxed">
-            AI-powered technical assistant. Verified specs, service
-            intervals, torque values, and expert guidance from our curated
-            knowledge base.
+            Powered by GPT-4o with live web search. Pulls from Ducati
+            technical documentation, forums, and our verified knowledge
+            base to answer any question about your bike.
           </p>
 
           {/* Trust badges */}
-          <div className="flex items-center gap-4 mt-6">
+          <div className="flex flex-wrap items-center gap-4 mt-6">
             <div className="flex items-center gap-1.5 text-[0.6rem] font-bold text-white/25 uppercase tracking-[0.15em]">
-              <AlertCircle className="w-3 h-3 text-[#cc0000]" />
-              Verified data only
+              <Zap className="w-3 h-3 text-[#cc0000]" />
+              GPT-4o
             </div>
             <div className="flex items-center gap-1.5 text-[0.6rem] font-bold text-white/25 uppercase tracking-[0.15em]">
               <BookOpen className="w-3 h-3 text-[#cc0000]" />
-              18 knowledge entries
+              Live web search
             </div>
             <div className="flex items-center gap-1.5 text-[0.6rem] font-bold text-white/25 uppercase tracking-[0.15em]">
-              <Zap className="w-3 h-3 text-[#cc0000]" />
-              Instant answers
+              <AlertCircle className="w-3 h-3 text-[#cc0000]" />
+              Verified KB grounding
+            </div>
+            <div className="flex items-center gap-1.5 text-[0.6rem] font-bold text-white/25 uppercase tracking-[0.15em]">
+              <Wrench className="w-3 h-3 text-[#cc0000]" />
+              Ducati docs + forums
             </div>
           </div>
         </div>
@@ -253,32 +300,34 @@ export default function AskDucatiClient() {
                           }}
                         >
                           <div className="flex items-center gap-3 mb-2">
-                            {msg.confidence !== undefined && (
-                              <span
-                                className={`text-[0.6rem] font-bold uppercase tracking-wider ${
-                                  msg.confidence >= 0.9
-                                    ? "text-green-400"
-                                    : msg.confidence >= 0.8
-                                      ? "text-yellow-400"
-                                      : "text-orange-400"
-                                }`}
-                              >
-                                {Math.round(msg.confidence * 100)}%
-                                confidence
+                            {msg.responseTime !== undefined && (
+                              <span className="text-[0.6rem] font-bold uppercase tracking-wider text-white/25">
+                                {(msg.responseTime / 1000).toFixed(1)}s
+                              </span>
+                            )}
+                            {msg.sources.some(s => s.type === "web") && (
+                              <span className="text-[0.6rem] font-bold uppercase tracking-wider text-green-400/70">
+                                Live web results
                               </span>
                             )}
                           </div>
                           <div className="flex flex-wrap gap-1.5">
-                            {msg.sources.slice(0, 3).map((src) => (
+                            {msg.sources.slice(0, 5).map((src, i) => (
                               <span
-                                key={src.id}
-                                className="inline-flex items-center gap-1 text-[0.55rem] font-bold text-white/30 bg-white/[0.04] px-2 py-1"
+                                key={src.id || `web-${i}`}
+                                className={`inline-flex items-center gap-1 text-[0.55rem] font-bold px-2 py-1 ${
+                                  src.type === "web"
+                                    ? "text-blue-300/40 bg-blue-500/[0.06]"
+                                    : "text-white/30 bg-white/[0.04]"
+                                }`}
                               >
-                                <CategoryIcon
-                                  category={src.category}
-                                />
-                                {src.title.length > 30
-                                  ? src.title.slice(0, 30) + "…"
+                                {src.type === "web" ? (
+                                  <BookOpen className="w-3 h-3" />
+                                ) : (
+                                  <CategoryIcon category={src.category || "general"} />
+                                )}
+                                {src.title.length > 35
+                                  ? src.title.slice(0, 35) + "…"
                                   : src.title}
                               </span>
                             ))}
