@@ -15,13 +15,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: event?.title ?? "Event" };
 }
 
-const CATEGORY_COLOURS: Record<string, string> = {
-  Rideout: "bg-blue-100 text-blue-800",
-  Training: "bg-green-100 text-green-800",
-  Social: "bg-purple-100 text-purple-800",
-  Special: "bg-yellow-100 text-yellow-800",
-};
-
 export default async function EventDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const event = EVENTS.find((e) => e.slug === slug);
@@ -30,83 +23,92 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
   const related = EVENTS.filter((e) => e.slug !== slug && e.category === event.category).slice(0, 3);
 
   return (
-    <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 pt-[88px] pb-12">
-      <Link href="/events" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-[#cc0000] mb-8 transition-colors">
-        <ArrowLeft className="w-4 h-4" /> Back to Events
-      </Link>
-
-      <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl h-64 flex items-center justify-center mb-8">
-        <Calendar className="w-20 h-20 text-[#cc0000]" />
-      </div>
-
-      <div className="flex items-center gap-3 mb-4">
-        <span className={`text-sm font-semibold px-3 py-1 rounded-full ${CATEGORY_COLOURS[event.category] ?? "bg-gray-100 text-gray-700"}`}>
-          {event.category}
-        </span>
-      </div>
-
-      <h1 className="text-4xl font-black text-gray-900 mb-6">{event.title}</h1>
-
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-4">
-          <Calendar className="w-5 h-5 text-[#cc0000] shrink-0" />
-          <div>
-            <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Date</p>
-            <p className="font-semibold text-gray-900 text-sm">{formatDate(event.date)}</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-4">
-          <Clock className="w-5 h-5 text-[#cc0000] shrink-0" />
-          <div>
-            <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Time</p>
-            <p className="font-semibold text-gray-900 text-sm">{event.time}</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-4">
-          <MapPin className="w-5 h-5 text-[#cc0000] shrink-0" />
-          <div>
-            <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Location</p>
-            <p className="font-semibold text-gray-900 text-sm">{event.location}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="prose prose-gray max-w-none mb-10">
-        <p className="text-gray-700 text-lg leading-relaxed">{event.description}</p>
-      </div>
-
-      <div className="bg-gray-50 rounded-2xl p-6 mb-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Users className="w-6 h-6 text-[#cc0000]" />
-          <div>
-            <p className="font-semibold text-gray-900">Want to join this event?</p>
-            <p className="text-sm text-gray-500">Login or register to RSVP and get updates.</p>
-          </div>
-        </div>
-        <div className="flex gap-3">
-          <Link href="/login" className="inline-flex items-center gap-2 bg-[#cc0000] hover:bg-[#990000] text-white font-semibold px-5 py-2.5 rounded-md transition-colors text-sm">
-            Login to RSVP
+    <div className="bg-black min-h-screen text-white" style={{ paddingTop: 72 }}>
+      {/* Hero image */}
+      <div className="relative h-72 sm:h-96 overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${event.image})` }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #000 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.5) 100%)" }} />
+        <div className="absolute bottom-0 left-0 right-0 max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 pb-10">
+          <Link href="/events" className="inline-flex items-center gap-2 text-white/30 hover:text-white text-xs font-bold uppercase tracking-wider transition-colors mb-4">
+            <ArrowLeft className="w-3.5 h-3.5" /> Events
           </Link>
-          <Link href="/register" className="inline-flex items-center gap-2 border border-gray-300 hover:border-gray-400 text-gray-700 font-semibold px-5 py-2.5 rounded-md transition-colors text-sm">
-            Register
-          </Link>
+          <span className="block text-[0.6rem] font-bold tracking-[0.2em] uppercase px-3 py-1.5 bg-[#cc0000] text-white w-fit mb-4">{event.category}</span>
+          <h1 className="font-black text-white" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 1, letterSpacing: "-0.03em" }}>
+            {event.title}
+          </h1>
         </div>
       </div>
 
-      {related.length > 0 && (
-        <div>
-          <h2 className="text-xl font-bold text-gray-900 mb-4">More {event.category} Events</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {related.map((r) => (
-              <Link key={r.slug} href={`/events/${r.slug}`}
-                className="border border-gray-200 rounded-xl p-4 hover:border-[#cc0000]/30 hover:shadow-md transition-all group">
-                <p className="text-xs text-gray-400 mb-1">{formatDate(r.date)}</p>
-                <p className="font-semibold text-gray-900 text-sm group-hover:text-[#cc0000] transition-colors">{r.title}</p>
-              </Link>
-            ))}
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 py-10">
+        {/* Info strip */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
+          <div className="flex items-center gap-3 bg-[#0e0e0e] p-4" style={{ border: "1px solid rgba(255,255,255,0.04)" }}>
+            <Calendar className="w-4 h-4 text-[#cc0000] shrink-0" />
+            <div>
+              <p className="text-[0.55rem] text-white/25 font-bold uppercase tracking-wider">Date</p>
+              <p className="font-bold text-white text-sm">{formatDate(event.date)}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 bg-[#0e0e0e] p-4" style={{ border: "1px solid rgba(255,255,255,0.04)" }}>
+            <Clock className="w-4 h-4 text-[#cc0000] shrink-0" />
+            <div>
+              <p className="text-[0.55rem] text-white/25 font-bold uppercase tracking-wider">Time</p>
+              <p className="font-bold text-white text-sm">{event.time}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 bg-[#0e0e0e] p-4" style={{ border: "1px solid rgba(255,255,255,0.04)" }}>
+            <MapPin className="w-4 h-4 text-[#cc0000] shrink-0" />
+            <div>
+              <p className="text-[0.55rem] text-white/25 font-bold uppercase tracking-wider">Location</p>
+              <p className="font-bold text-white text-sm">{event.location}</p>
+            </div>
           </div>
         </div>
-      )}
+
+        {/* Description */}
+        <p className="text-white/50 text-lg leading-relaxed max-w-2xl mb-10">{event.description}</p>
+
+        {/* CTA */}
+        <div className="bg-[#0e0e0e] p-6 mb-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={{ border: "1px solid rgba(255,255,255,0.04)" }}>
+          <div className="flex items-center gap-3">
+            <Users className="w-5 h-5 text-[#cc0000]" />
+            <div>
+              <p className="font-bold text-white text-sm">Want to join this event?</p>
+              <p className="text-white/30 text-xs">Login or register to RSVP and get updates.</p>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <Link href="/login" className="bg-[#cc0000] hover:bg-[#aa0000] text-white font-bold text-sm px-6 py-2.5 transition-colors">
+              Login to RSVP
+            </Link>
+            <Link href="/register" className="text-white/40 hover:text-white font-bold text-sm px-6 py-2.5 transition-colors" style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
+              Register
+            </Link>
+          </div>
+        </div>
+
+        {/* Related */}
+        {related.length > 0 && (
+          <div>
+            <p className="text-[0.65rem] font-black text-white/20 uppercase tracking-[0.2em] mb-5">More {event.category} Events</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {related.map((r) => (
+                <Link key={r.slug} href={`/events/${r.slug}`}
+                  className="group block bg-[#0e0e0e] overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.04)" }}>
+                  <div className="h-32 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700" style={{ backgroundImage: `url(${r.image})` }} />
+                    <div className="absolute inset-0 bg-black/50" />
+                  </div>
+                  <div className="p-4">
+                    <p className="text-[0.6rem] text-white/25 mb-1">{formatDate(r.date)}</p>
+                    <p className="font-bold text-white text-sm group-hover:text-[#cc0000] transition-colors">{r.title}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -411,8 +411,12 @@ function ListingCard({ listing, onRequest }: { listing: SwapListing; onRequest: 
     <div className={`rounded-2xl border overflow-hidden transition-all ${
       listing.active ? "border-white/[0.08] bg-[#0f0f0f]" : "border-white/[0.04] bg-[#0a0a0a] opacity-60"
     }`}>
-      {/* Colour header strip */}
-      <div className="h-1 w-full" style={{ background: listing.active ? "#cc0000" : "#333" }} />
+      {/* Bike image header */}
+      <div className="relative h-40 overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${listing.image})` }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(15,15,15,1) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.3) 100%)" }} />
+        <div className="absolute bottom-0 left-0 right-0 h-1 w-full" style={{ background: listing.active ? "#cc0000" : "#333" }} />
+      </div>
 
       <div className="p-5">
         {/* Owner + status */}

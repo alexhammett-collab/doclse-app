@@ -23,66 +23,74 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ s
   const related = RIDE_REPORTS.filter((r) => r.slug !== slug).slice(0, 3);
 
   return (
-    <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12 pt-[88px] pb-12">
-      <Link href="/news" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-[#cc0000] mb-8 transition-colors">
-        <ArrowLeft className="w-4 h-4" /> Back to News
-      </Link>
-
-      <div className="h-64 bg-gradient-to-br from-gray-900 to-black rounded-2xl flex items-center justify-center mb-8">
-        <span className="text-7xl">🏍️</span>
-      </div>
-
-      <div className="flex items-center gap-3 mb-4">
-        <span className="text-xs font-semibold bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
-          {report.category}
-        </span>
-        <div className="flex items-center gap-1 text-sm text-gray-400">
-          <Calendar className="w-3.5 h-3.5" />
-          {formatDate(report.date)}
+    <div className="bg-black min-h-screen text-white" style={{ paddingTop: 72 }}>
+      {/* Hero image */}
+      <div className="relative h-72 sm:h-96 overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${report.image})` }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #000 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.5) 100%)" }} />
+        <div className="absolute bottom-0 left-0 right-0 max-w-3xl mx-auto px-6 sm:px-8 lg:px-12 pb-10">
+          <Link href="/news" className="inline-flex items-center gap-2 text-white/30 hover:text-white text-xs font-bold uppercase tracking-wider transition-colors mb-4">
+            <ArrowLeft className="w-3.5 h-3.5" /> News
+          </Link>
+          <span className="block text-[0.6rem] font-bold tracking-[0.2em] uppercase px-3 py-1.5 bg-[#cc0000] text-white w-fit mb-4">{report.category}</span>
+          <h1 className="font-black text-white" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 1, letterSpacing: "-0.03em" }}>
+            {report.title}
+          </h1>
         </div>
       </div>
 
-      <h1 className="text-4xl font-black text-gray-900 mb-4">{report.title}</h1>
-
-      <div className="flex items-center gap-3 mb-8 pb-8 border-b border-gray-100">
-        <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center">
-          <User className="w-5 h-5 text-gray-400" />
-        </div>
-        <div>
-          <p className="font-semibold text-gray-900 text-sm">{report.author}</p>
-          <p className="text-xs text-gray-400">DOCLSE Member</p>
-        </div>
-      </div>
-
-      <div className="prose prose-gray max-w-none">
-        <p className="text-gray-700 text-lg leading-relaxed mb-6">{report.excerpt}</p>
-        <p className="text-gray-600 leading-relaxed">
-          This is a demonstration of the ride report content. In the full implementation with Sanity CMS, 
-          the complete article body — including photos, route maps, and rider commentary — would be 
-          rendered here using rich text from the CMS.
-        </p>
-        <p className="text-gray-600 leading-relaxed mt-4">
-          The DOCLSE community documents every ride, from the inaugural rideout in June 2024 through 
-          to the latest adventures. Every road tells a story, and every story brings us closer together 
-          as a club.
-        </p>
-      </div>
-
-      {related.length > 0 && (
-        <div className="mt-12 pt-8 border-t border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">More Ride Reports</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {related.map((r) => (
-              <Link key={r.slug} href={`/news/${r.slug}`}
-                className="border border-gray-200 rounded-xl p-4 hover:border-[#cc0000]/30 hover:shadow-sm transition-all group">
-                <p className="text-xs text-gray-400 mb-1">{formatDate(r.date)}</p>
-                <p className="font-semibold text-gray-900 text-sm group-hover:text-[#cc0000] transition-colors">{r.title}</p>
-                <p className="text-xs text-gray-400 mt-1">By {r.author}</p>
-              </Link>
-            ))}
+      <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12 py-10">
+        {/* Author bar */}
+        <div className="flex items-center gap-3 mb-8 pb-8" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="w-9 h-9 rounded-full bg-white/[0.06] flex items-center justify-center">
+            <User className="w-4 h-4 text-white/40" />
+          </div>
+          <div>
+            <p className="font-bold text-white text-sm">{report.author}</p>
+            <div className="flex items-center gap-2 text-[0.6rem] text-white/25">
+              <Calendar className="w-3 h-3" />
+              {formatDate(report.date)}
+            </div>
           </div>
         </div>
-      )}
+
+        {/* Article body */}
+        <div className="space-y-6">
+          <p className="text-white/60 text-lg leading-relaxed">{report.excerpt}</p>
+          <p className="text-white/40 leading-relaxed">
+            This is a demonstration of the ride report content. In the full implementation with Sanity CMS, 
+            the complete article body — including photos, route maps, and rider commentary — would be 
+            rendered here using rich text from the CMS.
+          </p>
+          <p className="text-white/40 leading-relaxed">
+            The DOCLSE community documents every ride, from the inaugural rideout in June 2024 through 
+            to the latest adventures. Every road tells a story, and every story brings us closer together 
+            as a club.
+          </p>
+        </div>
+
+        {/* Related */}
+        {related.length > 0 && (
+          <div className="mt-14 pt-10" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+            <p className="text-[0.65rem] font-black text-white/20 uppercase tracking-[0.2em] mb-5">More Reports</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {related.map((r) => (
+                <Link key={r.slug} href={`/news/${r.slug}`}
+                  className="group block bg-[#0e0e0e] overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.04)" }}>
+                  <div className="h-28 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700" style={{ backgroundImage: `url(${r.image})` }} />
+                    <div className="absolute inset-0 bg-black/50" />
+                  </div>
+                  <div className="p-4">
+                    <p className="text-[0.6rem] text-white/25 mb-1">{formatDate(r.date)} · {r.author}</p>
+                    <p className="font-bold text-white text-sm group-hover:text-[#cc0000] transition-colors">{r.title}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

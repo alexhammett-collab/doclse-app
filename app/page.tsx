@@ -15,6 +15,12 @@ export default function HomePage() {
           HERO — full-viewport cinematic, Ducati.com aesthetic
       ──────────────────────────────────────────────────────────── */}
       <section className="relative w-full overflow-hidden" style={{ height: "100svh", minHeight: 700 }}>
+        {/* Hero background image */}
+        <div className="absolute inset-0 bg-cover bg-center" style={{
+          backgroundImage: "url(https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=1920&q=85&fit=crop)",
+        }} />
+        {/* Dark overlay for text legibility */}
+        <div className="absolute inset-0 bg-black/70" />
         {/* Studio lighting — dramatic red spotlight from right */}
         <div className="absolute inset-0" style={{
           background: "radial-gradient(ellipse 70% 90% at 70% 40%, rgba(204,0,0,0.2) 0%, transparent 60%)"
@@ -174,14 +180,12 @@ export default function HomePage() {
                   href={`/events/${event.slug}`}
                   className="group block"
                 >
-                  <div className="h-64 relative overflow-hidden mb-5" style={{
-                    background: `linear-gradient(160deg, hsl(${345+i*8},70%,6%) 0%, hsl(${350+i*12},50%,14%) 100%)`
-                  }}>
-                    <div className="absolute inset-0" style={{
-                      background: "radial-gradient(circle at 70% 30%, rgba(204,0,0,0.25) 0%, transparent 60%)"
+                  <div className="h-64 relative overflow-hidden mb-5">
+                    <div className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700" style={{
+                      backgroundImage: `url(${event.image})`,
                     }} />
-                    <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-700" style={{
-                      background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%)"
+                    <div className="absolute inset-0" style={{
+                      background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 100%)"
                     }} />
                     <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#cc0000] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                     <div className="absolute bottom-5 left-6">
@@ -374,11 +378,12 @@ export default function HomePage() {
             {latestReports.map((report, i) => (
               <ScrollReveal key={report.slug} delay={i * 80}>
                 <Link href={`/news/${report.slug}`} className="group block">
-                  <div className="h-56 relative overflow-hidden mb-5" style={{
-                    background: `linear-gradient(145deg, hsl(${350+i*15},60%,5%) 0%, hsl(${355+i*10},40%,12%) 100%)`
-                  }}>
+                  <div className="h-56 relative overflow-hidden mb-5">
+                    <div className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700" style={{
+                      backgroundImage: `url(${report.image})`,
+                    }} />
                     <div className="absolute inset-0" style={{
-                      background: "radial-gradient(circle at 30% 70%, rgba(204,0,0,0.2) 0%, transparent 50%)"
+                      background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.3) 100%)"
                     }} />
                     <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#cc0000] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                     <div className="absolute top-5 left-6">

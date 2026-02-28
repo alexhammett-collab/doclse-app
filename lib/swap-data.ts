@@ -21,6 +21,7 @@ export interface SwapListing {
   insuredValue: number; // £
   active: boolean;
   swapsCompleted: number;
+  image: string;
 }
 
 export interface InsuranceTier {
@@ -48,6 +49,7 @@ export const SWAP_LISTINGS: SwapListing[] = [
     color: "Ducati Red",
     mileage: 4200,
     location: "London, SE1",
+    image: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=600&q=80&fit=crop",
     description: "My pride and joy — the full race-spec V4R in Ducati Red. She's tuned with an Akrapovič slip-on and Öhlins setup. I'd love someone to experience her properly, not just look at her. Dry days only please.",
     tags: ["Track Ready", "Race Spec", "Akrapovič", "Öhlins"],
     availableDates: "Weekends in March & April",
@@ -71,6 +73,7 @@ export const SWAP_LISTINGS: SwapListing[] = [
     color: "Arctic White",
     mileage: 9800,
     location: "Sevenoaks, Kent",
+    image: "https://images.unsplash.com/photo-1558980394-34764db076b4?w=600&q=80&fit=crop",
     description: "The Monster SP in Arctic White — a proper all-rounder. Comfortable enough for a Surrey Hills rideout but punchy enough to put a grin on your face. Happy for any experience level on this one.",
     tags: ["All-rounder", "Comfortable", "Touring Ready"],
     availableDates: "Most Saturdays, flexible",
@@ -94,6 +97,7 @@ export const SWAP_LISTINGS: SwapListing[] = [
     color: "Dark Stealth",
     mileage: 3100,
     location: "Brighton",
+    image: "https://images.unsplash.com/photo-1580310614729-ccd69652491d?w=600&q=80&fit=crop",
     description: "The Hypermotard is unlike anything else. Upright, wild, insane fun on B-roads. Perfect for a coastal rideout. Low mileage, immaculate condition. Ideal for someone who wants to try something totally different.",
     tags: ["Supermoto", "B-road King", "Low Miles", "Coastal"],
     availableDates: "Mid-week flexible, some weekends",
@@ -117,6 +121,7 @@ export const SWAP_LISTINGS: SwapListing[] = [
     color: "Black on Black",
     mileage: 6700,
     location: "Guildford, Surrey",
+    image: "https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=600&q=80&fit=crop",
     description: "The Scrambler Nightshift is the perfect gateway drug for anyone new to Ducati. Relaxed, beautiful, dead easy to ride but still puts a massive smile on your face. Great for a day out in the Surrey Hills.",
     tags: ["Beginner Friendly", "Surrey Hills", "Classic Style"],
     availableDates: "Sundays mainly, some Saturdays",
@@ -140,6 +145,7 @@ export const SWAP_LISTINGS: SwapListing[] = [
     color: "Aviator Grey",
     mileage: 22400,
     location: "Oxford",
+    image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600&q=80&fit=crop",
     description: "The Swiss Army knife of motorcycles. The Multistrada V4S in Aviator Grey has done 22k miles across 14 countries. Radar cruise, 4 riding modes, heated grips, Skyhook suspension. Perfect for a long day's adventure ride.",
     tags: ["Adventure", "Long Distance", "Radar Cruise", "Heated Grips"],
     availableDates: "Bank holidays & longer weekends",
@@ -163,6 +169,7 @@ export const SWAP_LISTINGS: SwapListing[] = [
     color: "Speciale White",
     mileage: 7800,
     location: "Reading, Berkshire",
+    image: "https://images.unsplash.com/photo-1547549082-6bc09f2049ae?w=600&q=80&fit=crop",
     description: "Standard V4 (not R spec) in Speciale White. A little more forgiving than the R but still an absolutely devastating motorcycle. Full titanium exhaust, quick-shifter. Would love a Multistrada or Streetfighter in return.",
     tags: ["Titanium Exhaust", "Quick-shifter", "Track Capable"],
     availableDates: "Saturdays in March–May",

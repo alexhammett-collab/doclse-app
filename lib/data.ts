@@ -7,7 +7,7 @@ export const EVENTS = [
     location: "Arch 70, Albert Embankment, London SE1 7TP",
     category: "Rideout",
     description: "Join us for our monthly organised rideout heading west. Meet and ride with fellow members and adore all things Ducati. Meet time: 10:00am for a 10:30am departure.",
-    image: "/images/rideout-placeholder.jpg",
+    image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&q=80&fit=crop",
   },
   {
     slug: "mar-2026-monthly-rideout-north",
@@ -17,7 +17,7 @@ export const EVENTS = [
     location: "Arch 70, Albert Embankment, London SE1 7TP",
     category: "Rideout",
     description: "Official Monthly Rideout – North. Come and join us for one of our organised rideouts heading north.",
-    image: "/images/rideout-placeholder.jpg",
+    image: "https://images.unsplash.com/photo-1547549082-6bc09f2049ae?w=800&q=80&fit=crop",
   },
   {
     slug: "ridewise-pro-training",
@@ -27,7 +27,7 @@ export const EVENTS = [
     location: "Brands Hatch, Longfield, Kent DA3 8NG",
     category: "Training",
     description: "Professional riding skills training day with Ridewise. Open to all members. Limited spaces — members priority booking.",
-    image: "/images/training-placeholder.jpg",
+    image: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=800&q=80&fit=crop",
   },
   {
     slug: "apr-2026-monthly-rideout-east",
@@ -37,7 +37,7 @@ export const EVENTS = [
     location: "Arch 70, Albert Embankment, London SE1 7TP",
     category: "Rideout",
     description: "Official Monthly Rideout – East. Meet and ride with fellow members.",
-    image: "/images/rideout-placeholder.jpg",
+    image: "https://images.unsplash.com/photo-1558981359-219d6364c9c8?w=800&q=80&fit=crop",
   },
   {
     slug: "i-want-to-wheelie",
@@ -47,7 +47,7 @@ export const EVENTS = [
     location: "Private track, Kent",
     category: "Training",
     description: "Learn to wheelie in a safe, controlled environment with professional instruction. All bikes welcome.",
-    image: "/images/training-placeholder.jpg",
+    image: "https://images.unsplash.com/photo-1580310614729-ccd69652491d?w=800&q=80&fit=crop",
   },
   {
     slug: "may-2026-monthly-rideout-south-club-bbq",
@@ -57,7 +57,7 @@ export const EVENTS = [
     location: "Arch 70, Albert Embankment, London SE1 7TP",
     category: "Social",
     description: "Our annual spring rideout heading south, followed by a club BBQ back at HQ. Bring your appetite!",
-    image: "/images/social-placeholder.jpg",
+    image: "https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=800&q=80&fit=crop",
   },
   {
     slug: "doclse-wdw-2026",
@@ -67,7 +67,7 @@ export const EVENTS = [
     location: "Misano World Circuit, Italy",
     category: "Special",
     description: "Join the DOCLSE crew at World Ducati Week 2026 in Misano, Italy. The ultimate Ducati gathering. Paid member discounts apply.",
-    image: "/images/wdw-placeholder.jpg",
+    image: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=800&q=80&fit=crop",
   },
   {
     slug: "doclse-christmas-party",
@@ -77,7 +77,7 @@ export const EVENTS = [
     location: "Arch 70, Albert Embankment, London SE1 7TP",
     category: "Social",
     description: "Our annual Christmas party — food, drinks, awards and good company. Members and guests welcome.",
-    image: "/images/social-placeholder.jpg",
+    image: "https://images.unsplash.com/photo-1558980394-34764db076b4?w=800&q=80&fit=crop",
   },
 ];
 
@@ -96,7 +96,7 @@ export const PRODUCTS = [
     name: "DOCLSE Beanie",
     price: 1800,
     description: "Official DOCLSE beanie hat. One size fits all. Available in black with red DOCLSE logo embroidery.",
-    images: ["/images/beanie-1.jpg", "/images/beanie-2.jpg"],
+    images: ["https://images.unsplash.com/photo-1556306535-0f09a537f0a3?w=600&q=80&fit=crop", "https://images.unsplash.com/photo-1556306535-0f09a537f0a3?w=600&q=80&fit=crop"],
     category: "Accessories",
     inStock: true,
   },
@@ -105,7 +105,7 @@ export const PRODUCTS = [
     name: "DOCLSE Cap",
     price: 2000,
     description: "Official DOCLSE cap. Adjustable strap. Black with embroidered red DOCLSE logo.",
-    images: ["/images/cap-1.jpg", "/images/cap-2.jpg"],
+    images: ["https://images.unsplash.com/photo-1588850561407-ed78c334e67a?w=600&q=80&fit=crop", "https://images.unsplash.com/photo-1588850561407-ed78c334e67a?w=600&q=80&fit=crop"],
     category: "Clothing",
     inStock: true,
   },
@@ -153,7 +153,7 @@ export const RIDE_REPORTS = [
     date: "2024-08-18",
     author: "David Lee",
     excerpt: "A cracking summer rideout down to the coast for fish & chips. Read about the route, the laughs and the Ducatis.",
-    image: "/images/report-1.jpg",
+    image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&q=80&fit=crop",
     category: "Ride Report",
   },
   {
@@ -162,7 +162,7 @@ export const RIDE_REPORTS = [
     date: "2024-09-08",
     author: "Jonathan Tait",
     excerpt: "We said goodbye to summer in style — a scenic loop through the Surrey Hills and a picnic stop in the countryside.",
-    image: "/images/report-2.jpg",
+    image: "https://images.unsplash.com/photo-1547549082-6bc09f2049ae?w=800&q=80&fit=crop",
     category: "Ride Report",
   },
   {
@@ -171,7 +171,7 @@ export const RIDE_REPORTS = [
     date: "2024-08-04",
     author: "Chloe",
     excerpt: "One of those perfect riding days. Blue skies, twisty roads and the smell of the sea.",
-    image: "/images/report-3.jpg",
+    image: "https://images.unsplash.com/photo-1558981359-219d6364c9c8?w=800&q=80&fit=crop",
     category: "Ride Report",
   },
   {
@@ -180,7 +180,7 @@ export const RIDE_REPORTS = [
     date: "2024-07-14",
     author: "Jonathan Tait",
     excerpt: "Not every ride is sunshine. A soggy but memorable run to Westerham — proof that Ducatistas ride in all weathers.",
-    image: "/images/report-4.jpg",
+    image: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=800&q=80&fit=crop",
     category: "Ride Report",
   },
   {
@@ -189,7 +189,7 @@ export const RIDE_REPORTS = [
     date: "2024-06-02",
     author: "Jonathan Tait",
     excerpt: "The very first DOCLSE rideout. A moment in history for the club — a small group, a big dream.",
-    image: "/images/report-5.jpg",
+    image: "https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=800&q=80&fit=crop",
     category: "Ride Report",
   },
   {
@@ -198,7 +198,7 @@ export const RIDE_REPORTS = [
     date: "2025-03-10",
     author: "Mark Speller",
     excerpt: "We got our hands on the MY25 Panigale V2. Here's what we thought after a day at the track.",
-    image: "/images/report-review.jpg",
+    image: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=800&q=80&fit=crop",
     category: "Review",
   },
 ];
